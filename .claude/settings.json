@@ -31,14 +31,16 @@
     ]
   },
   "hooks": {
-    "PostToolUse": [
+    "PreToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/format-swift.sh",
-            "timeout": 30
+            "if": "Bash(gh pr create *)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/require-formatted.sh",
+            "timeout": 30,
+            "statusMessage": "Checking SwiftFormat before PR"
           }
         ]
       }

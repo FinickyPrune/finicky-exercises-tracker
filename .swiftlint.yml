@@ -2,10 +2,20 @@ included:
   - ExercisesTracker
   - ExercisesTrackerTests
 
-# Formatting rules are owned by SwiftFormat.
+# Layout is owned by SwiftFormat, which runs only before a PR.
+# These rules would otherwise fail `make lint` on whitespace mid-work.
 disabled_rules:
-  - trailing_comma
+  - closing_brace
+  - colon
+  - comma
+  - leading_whitespace
   - opening_brace
+  - return_arrow_whitespace
+  - statement_position
+  - trailing_comma
+  - trailing_newline
+  - trailing_whitespace
+  - vertical_whitespace
 
 opt_in_rules:
   - closure_spacing

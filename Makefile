@@ -36,7 +36,7 @@ format: ## Format all Swift sources in place
 format-check: ## Fail if any file is not formatted
 	swiftformat --lint .
 
-check: format-check lint test ## Everything CI runs
+check: lint test ## Dev loop: lint + tests (formatting is checked before PR)
 
 clean:
 	rm -rf .build $(PROJECT)

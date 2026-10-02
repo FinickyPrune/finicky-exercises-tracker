@@ -20,8 +20,8 @@ Always go through the Makefile — CI runs the same targets.
 | `make build` | Build for the simulator |
 | `make test` | Run unit tests on the simulator (`SIMULATOR="..."` to override) |
 | `make lint` | SwiftLint, strict |
-| `make format` | SwiftFormat in place |
-| `make check` | format-check + lint + test — what CI runs |
+| `make check` | lint + test — the dev loop |
+| `make format` | SwiftFormat in place — only before a PR |
 
 Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xcresulttool get test-results summary --path <file>`.
 
@@ -31,7 +31,7 @@ Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xc
 - **Before saying a task is done, run `make check`** and report the result. If it fails, fix it or say what is failing.
 - New logic comes with tests in `ExercisesTrackerTests/`, mirroring the source folder structure.
 - For UI changes, launch the app in the simulator and check the screen, not just the build.
-- Formatting is automatic (a hook runs SwiftFormat after every edit). Don't fight it.
+- **SwiftFormat runs only before a PR**, not during development. Don't run `make format` mid-task. Before `gh pr create`: `make format`, commit, push. A hook blocks `gh pr create` while files are unformatted, and CI checks formatting too.
 - Work on a branch, never commit to `main` directly. Branch names: `feature/…`, `fix/…`, `chore/…`.
 - Commit messages: imperative mood, short subject line (`Add workout list screen`).
 
@@ -55,4 +55,5 @@ ExercisesTrackerTests/
 1. Implement on a feature branch.
 2. `make check` passes.
 3. Run the `ios-reviewer` subagent on the branch; fix blockers. Use `test-writer` if coverage is missing.
-4. Open a PR with `gh pr create`; CI must be green before merge.
+4. `make format`, commit the formatting as its own commit, push.
+5. Open a PR with `gh pr create`; CI must be green before merge.
