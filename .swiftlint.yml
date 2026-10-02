@@ -1,0 +1,38 @@
+included:
+  - ExercisesTracker
+  - ExercisesTrackerTests
+
+# Layout is owned by SwiftFormat, which runs only before a PR.
+# These rules would otherwise fail `make lint` on whitespace mid-work.
+disabled_rules:
+  - closing_brace
+  - colon
+  - comma
+  - leading_whitespace
+  - opening_brace
+  - return_arrow_whitespace
+  - statement_position
+  - trailing_comma
+  - trailing_newline
+  - trailing_whitespace
+  - vertical_whitespace
+
+opt_in_rules:
+  - closure_spacing
+  - contains_over_first_not_nil
+  - empty_count
+  - fatal_error_message
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - last_where
+  - private_swiftui_state
+  - redundant_nil_coalescing
+  - toggle_bool
+
+line_length:
+  warning: 120
+  ignores_comments: true
+
+identifier_name:
+  excluded: [id, x, y]
