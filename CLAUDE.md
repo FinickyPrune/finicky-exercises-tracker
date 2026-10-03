@@ -37,7 +37,7 @@ Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xc
 - **Before saying a task is done, run `make check`** and report the result. If it fails, fix it or say what is failing.
 - New logic comes with tests in `ExercisesTrackerTests/`, mirroring the source folder structure.
 - For UI changes, launch the app in the simulator and check the screen, not just the build.
-- **UI goes through the design system** (`Core/DesignSystem/`). No color, font, spacing or radius literals and no direct haptic calls in `Features/`. A new component goes into the design system with a `#Preview` and into the gallery.
+- **UI goes through the design system** (the `DesignSystem` framework target, introduced in 0.2 — see docs/ARCHITECTURE.md). No color, font, spacing or radius literals and no direct haptic calls in `Features/`. A new component goes into the design system with a `#Preview` and into the gallery.
 - **SwiftFormat runs only before a PR**, not during development. Don't run `make format` mid-task. Before `gh pr create`: `make format`, commit, push. A hook blocks `gh pr create` while files are unformatted, and CI checks formatting too.
 - Work on a branch, never commit to `main` directly. Branch names: `feature/…`, `fix/…`, `chore/…`. `main` is protected on GitHub (PR with a green `check` job, squash merge only), and a hook blocks `git commit`/`git push` while on `main`.
 - Commit messages: imperative mood, short subject line (`Add workout list screen`).
@@ -47,10 +47,12 @@ Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xc
 ```
 ExercisesTracker/
   App/          entry point, root navigation
-  Core/         Model, Persistence, Scheduling, DesignSystem
+  Core/         Model, Persistence, Scheduling
   Features/     Today, RoutineRun, Editor, Library — views and view models
   Resources/    assets
 ExercisesTrackerTests/
+DesignSystem/   framework target: tokens, components, feedback (from 0.2)
+DesignSystemTests/
 ```
 
 - State: `@Observable` models; views own them with `@State`, pass them down as plain properties or via `@Environment`.
