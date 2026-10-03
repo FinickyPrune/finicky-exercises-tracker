@@ -1,6 +1,7 @@
 name: CI
 
-# macOS minutes are billed 10x on private repos, so run only for PRs (and manually).
+# The `check` job is a required status check for main, so it must run on every PR
+# (a path filter would leave docs-only PRs unmergeable). Runners are free for public repos.
 on:
   pull_request:
   workflow_dispatch:

@@ -22,8 +22,9 @@ Do not edit files, commit, or run formatters. You may run `make lint` and `make 
 3. **SwiftUI state**: wrong ownership (`@State` vs passed-in model), state that should be `private`, expensive work in `body`, identity issues in `ForEach`.
 4. **Memory**: retain cycles in closures stored on long-lived objects.
 5. **Tests**: new logic without tests in `ExercisesTrackerTests/`, tests that don't assert anything meaningful.
-6. **Accessibility**: missing labels on icon-only controls, hard-coded font sizes that ignore Dynamic Type.
-7. **Project hygiene**: edits to the generated `.xcodeproj` instead of `project.yml`, new third-party dependencies, stray debug code.
+6. **Design system**: color, font, spacing or radius literals and direct haptic calls in `Features/` instead of `Core/DesignSystem/` tokens, components and feedback events (see `docs/DESIGN.md`).
+7. **Accessibility**: missing labels on icon-only controls, hard-coded font sizes that ignore Dynamic Type, celebrations that ignore Reduce Motion.
+8. **Project hygiene**: edits to the generated `.xcodeproj` instead of `project.yml`, new third-party dependencies, stray debug code.
 
 Skip pure style nits — SwiftFormat and SwiftLint own those.
 
