@@ -72,3 +72,6 @@ DerivedData/
 
 # Claude Code personal settings
 .claude/settings.local.json
+
+# Design references: third-party screenshots, kept locally only
+docs/design/references/

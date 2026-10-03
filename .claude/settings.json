@@ -41,9 +41,24 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/require-formatted.sh",
             "timeout": 30,
             "statusMessage": "Checking SwiftFormat before PR"
+          },
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-main.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "Bash(git push *)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-main.sh",
+            "timeout": 10
           }
         ]
       }
     ]
+  },
+  "worktree": {
+    "symlinkDirectories": ["docs/design/references"]
   }
 }
