@@ -3,7 +3,7 @@ import SwiftUI
 import UIKit
 
 // Temporary lab for task 0.1: colors come straight from the starting values in docs/DESIGN.md.
-// After a direction is chosen they move into Core/DesignSystem tokens (0.2) and this folder goes away.
+// Direction A was chosen; the values move into the DesignSystem framework tokens (0.2) and this folder goes away.
 
 enum LabPalette {
     static let accent = Color(light: 0xF77F3C, dark: 0xFF8A4C)
@@ -40,7 +40,8 @@ struct LabDayPartTint {
 }
 
 extension Color {
-    init(light: UInt32, dark: UInt32) {
+    /// `nonisolated` so the provider closure doesn't inherit MainActor: UIKit may resolve colors off the main thread.
+    nonisolated init(light: UInt32, dark: UInt32) {
         self.init(uiColor: UIColor { traits in
             UIColor(hex: traits.userInterfaceStyle == .dark ? dark : light)
         })

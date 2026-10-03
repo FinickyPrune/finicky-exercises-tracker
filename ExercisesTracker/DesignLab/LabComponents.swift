@@ -39,7 +39,7 @@ struct LabCheckButton: View {
 
     private var foreground: Color {
         if onAccent { return isOn ? LabPalette.accent : LabPalette.onAccent }
-        return isOn ? LabPalette.onAccent : LabPalette.textSecondary.opacity(0.5)
+        return isOn ? LabPalette.onAccent : LabPalette.textSecondary
     }
 
     private var background: Color {
