@@ -38,7 +38,7 @@ struct LabStyle: Identifiable {
     static let gentler = LabStyle(
         id: "a",
         name: "A · Gentler",
-        summary: "SF Pro, просторно, рутины сеткой, текущая залита акцентом",
+        summary: "Просторно, рутины сеткой, текущая залита акцентом",
         titleDesign: .default,
         highlight: .filledCard,
         todayLayout: .grid,
@@ -51,8 +51,8 @@ struct LabStyle: Identifiable {
     static let tiimo = LabStyle(
         id: "b",
         name: "B · Tiimo",
-        summary: "New York, плотный список, капсулы частей дня, действие — акцентная капсула",
-        titleDesign: .serif,
+        summary: "Плотный список, капсулы частей дня, действие — акцентная капсула",
+        titleDesign: .default,
         highlight: .accentCapsule,
         todayLayout: .list,
         dayPartHeader: .capsule,
@@ -64,8 +64,8 @@ struct LabStyle: Identifiable {
     static let hybrid = LabStyle(
         id: "c",
         name: "C · Гибрид",
-        summary: "New York, капсулы частей дня, текущая рутина — крупная акцентная карточка",
-        titleDesign: .serif,
+        summary: "Капсулы частей дня, текущая рутина — крупная акцентная карточка",
+        titleDesign: .default,
         highlight: .filledCard,
         todayLayout: .list,
         dayPartHeader: .capsule,
