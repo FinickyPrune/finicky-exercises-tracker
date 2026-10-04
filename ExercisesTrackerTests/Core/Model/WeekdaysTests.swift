@@ -24,6 +24,17 @@ struct WeekdaysTests {
         #expect(Weekdays(calendarWeekday: calendarWeekday) == expected)
     }
 
+    @Test(arguments: [0, 8, -1])
+    func outOfRangeCalendarWeekdayIsEmpty(value: Int) {
+        #expect(Weekdays(calendarWeekday: value).isEmpty)
+    }
+
+    @Test func routineIgnoresStrayBits() {
+        let routine = Routine(name: "Зарядка", symbol: "figure.cooldown", colorName: "orange", sortIndex: 0)
+        routine.weekdaysRaw = 0xFF
+        #expect(routine.weekdays == .everyDay)
+    }
+
     @Test func dateInGregorianCalendar() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "Europe/Belgrade"))

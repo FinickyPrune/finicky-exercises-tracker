@@ -84,6 +84,9 @@ DayPart «Утро» (с 05:00)
     var notes: String
     @Attribute(.externalStorage) var photo: Data?   // уменьшенное до ~1600 px
     var isArchived: Bool
+    // Обратная связь обязательна: без неё удаление упражнения оставляет у шага ссылку на удалённый объект
+    @Relationship(deleteRule: .nullify, inverse: \Step.exercise)
+    var steps: [Step]
 }
 
 // История

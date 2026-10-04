@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-// The current schema version is used through these names everywhere outside Core/Model.
+// Code outside Core/Model uses these names; they point at the latest schema version (now v1).
 typealias DayPart = SchemaV1.DayPart
 typealias Routine = SchemaV1.Routine
 typealias Step = SchemaV1.Step
@@ -78,7 +78,8 @@ enum SchemaV1: VersionedSchema {
         }
 
         var weekdays: Weekdays {
-            get { Weekdays(rawValue: weekdaysRaw) }
+            // Masked: stray high bits from a damaged store are not days.
+            get { Weekdays(rawValue: weekdaysRaw).intersection(.everyDay) }
             set { weekdaysRaw = newValue.rawValue }
         }
     }
@@ -125,6 +126,10 @@ enum SchemaV1: VersionedSchema {
         /// Downscaled to about 1600 px.
         @Attribute(.externalStorage) var photo: Data?
         var isArchived: Bool
+        /// Steps that use this exercise. The inverse is what makes deleting an exercise
+        /// set `Step.exercise` to `nil` instead of leaving a reference to a deleted object.
+        @Relationship(deleteRule: .nullify, inverse: \Step.exercise)
+        var steps: [Step]
 
         init(id: UUID = UUID(), name: String, notes: String = "", photo: Data? = nil, isArchived: Bool = false) {
             self.id = id
@@ -132,6 +137,7 @@ enum SchemaV1: VersionedSchema {
             self.notes = notes
             self.photo = photo
             self.isArchived = isArchived
+            steps = []
         }
     }
 }

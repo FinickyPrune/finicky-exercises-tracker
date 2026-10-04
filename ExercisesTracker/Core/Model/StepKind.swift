@@ -76,7 +76,12 @@ nonisolated struct CheckStep: StepKind {
     }
 }
 
-/// Settings of a step, whatever its kind. Stored JSON-encoded in `Step.configData`.
+/// Settings of a step, whatever its kind. Stored JSON-encoded in `Step.configData`:
+/// `{"type":"exercise","settings":{"sets":3,"target":{"reps":15}}}`.
+///
+/// The format is persisted, so it may only grow compatibly: a new field must be optional (or decode with a default),
+/// fields are never renamed, a new kind is a new `type` value. Data with an unknown `type` fails to decode,
+/// and `Step.config` returns `nil` for it.
 nonisolated enum StepConfig: Codable, Hashable, Sendable {
     case exercise(ExerciseStep)
     case link(LinkStep)
@@ -103,5 +108,69 @@ nonisolated enum StepConfig: Codable, Hashable, Sendable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys
         return encoder
+    }
+}
+
+// MARK: - Persisted format
+
+// Explicit coding instead of the synthesized `{"exercise":{"_0":…}}` shape, which is hard to read and to evolve.
+
+nonisolated extension StepConfig {
+    private enum CodingKeys: String, CodingKey {
+        case type
+        case settings
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+        case ExerciseStep.kind: self = try .exercise(container.decode(ExerciseStep.self, forKey: .settings))
+        case LinkStep.kind: self = try .link(container.decode(LinkStep.self, forKey: .settings))
+        case CheckStep.kind: self = try .check(container.decode(CheckStep.self, forKey: .settings))
+        default:
+            throw DecodingError.dataCorruptedError(
+                forKey: .type, in: container, debugDescription: "Unknown step kind \(type)"
+            )
+        }
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(kind, forKey: .type)
+        switch self {
+        case let .exercise(step): try container.encode(step, forKey: .settings)
+        case let .link(step): try container.encode(step, forKey: .settings)
+        case let .check(step): try container.encode(step, forKey: .settings)
+        }
+    }
+}
+
+/// `{"reps":15}` or `{"seconds":30}`.
+nonisolated extension ExerciseStep.Target {
+    private enum CodingKeys: String, CodingKey {
+        case reps
+        case seconds
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let reps = try container.decodeIfPresent(Int.self, forKey: .reps) {
+            self = .reps(reps)
+        } else if let seconds = try container.decodeIfPresent(Int.self, forKey: .seconds) {
+            self = .duration(seconds: seconds)
+        } else {
+            throw DecodingError.dataCorrupted(
+                .init(codingPath: decoder.codingPath, debugDescription: "Target has neither reps nor seconds")
+            )
+        }
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case let .reps(count): try container.encode(count, forKey: .reps)
+        case let .duration(seconds): try container.encode(seconds, forKey: .seconds)
+        }
     }
 }

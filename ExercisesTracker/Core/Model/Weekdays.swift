@@ -24,7 +24,12 @@ nonisolated struct Weekdays: OptionSet, Codable, Hashable, Sendable {
     }
 
     /// The single day for `Calendar.component(.weekday, from:)`, where 1 is Sunday and 7 is Saturday.
+    /// Values outside 1…7 give an empty set.
     init(calendarWeekday: Int) {
+        guard (1 ... 7).contains(calendarWeekday) else {
+            self = []
+            return
+        }
         // Calendar: 1 = Sun, 2 = Mon … 7 = Sat. Ours: bit 0 = Mon … bit 6 = Sun.
         let index = (calendarWeekday + 5) % 7
         self.init(rawValue: 1 << index)

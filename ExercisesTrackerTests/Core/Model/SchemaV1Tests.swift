@@ -4,14 +4,19 @@ import SwiftData
 import Testing
 
 struct SchemaV1Tests {
-    private func makeContext() throws -> ModelContext {
-        let schema = Schema(versionedSchema: SchemaV1.self)
-        let container = try ModelContainer(
-            for: schema,
+    /// Kept for the whole test: a context must not outlive its container.
+    private let container: ModelContainer
+
+    init() throws {
+        container = try ModelContainer(
+            for: Schema(versionedSchema: SchemaV1.self),
             migrationPlan: AppMigrationPlan.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
-        return ModelContext(container)
+    }
+
+    private func makeContext() -> ModelContext {
+        ModelContext(container)
     }
 
     /// Утро → Зарядка → два шага с упражнением + Дневник → шаг-ссылка.
@@ -35,7 +40,7 @@ struct SchemaV1Tests {
     }
 
     @Test func deletingDayPartCascadesToRoutinesAndSteps() throws {
-        let context = try makeContext()
+        let context = makeContext()
         let (morning, _) = try insertMorning(into: context)
         #expect(try context.fetchCount(FetchDescriptor<Routine>()) == 2)
         #expect(try context.fetchCount(FetchDescriptor<Step>()) == 3)
@@ -49,7 +54,7 @@ struct SchemaV1Tests {
     }
 
     @Test func deletingRoutineKeepsLibraryExercise() throws {
-        let context = try makeContext()
+        let context = makeContext()
         let (morning, squats) = try insertMorning(into: context)
         let workout = try #require(morning.routines.first { $0.name == "Зарядка" })
 
@@ -57,8 +62,25 @@ struct SchemaV1Tests {
         try context.save()
 
         #expect(try context.fetchCount(FetchDescriptor<Step>()) == 1)
-        #expect(try context.fetchCount(FetchDescriptor<Exercise>()) == 1)
-        #expect(squats.name == "Приседания")
+        let exercises = try context.fetch(FetchDescriptor<Exercise>())
+        #expect(exercises.map(\.id) == [squats.id])
+    }
+
+    /// The step keeps its settings; the UI has to handle an exercise step without an exercise.
+    @Test func deletingExerciseKeepsStepWithoutExercise() throws {
+        let context = makeContext()
+        let (_, squats) = try insertMorning(into: context)
+        let stepID = try #require(
+            context.fetch(FetchDescriptor<Step>()).first { $0.exercise?.id == squats.id }?.id
+        )
+
+        context.delete(squats)
+        try context.save()
+
+        #expect(try context.fetchCount(FetchDescriptor<Step>()) == 3)
+        let step = try #require(context.fetch(FetchDescriptor<Step>(predicate: #Predicate { $0.id == stepID })).first)
+        #expect(step.exercise == nil)
+        #expect(step.kindRaw == "exercise")
     }
 
     @Test func stepStoresKindAndDecodesConfig() throws {
