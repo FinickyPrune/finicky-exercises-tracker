@@ -51,15 +51,15 @@ nonisolated public enum Opacity {
 }
 
 public extension Shape where Self == RoundedRectangle {
-    static var card: RoundedRectangle {
+    nonisolated static var card: RoundedRectangle {
         RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
     }
 
-    static var row: RoundedRectangle {
+    nonisolated static var row: RoundedRectangle {
         RoundedRectangle(cornerRadius: Radius.row, style: .continuous)
     }
 
-    static var small: RoundedRectangle {
+    nonisolated static var small: RoundedRectangle {
         RoundedRectangle(cornerRadius: Radius.small, style: .continuous)
     }
 }

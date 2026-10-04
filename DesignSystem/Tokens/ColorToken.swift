@@ -30,6 +30,17 @@ nonisolated public struct ColorToken: ShapeStyle, Hashable, Identifiable {
         self.darkIncreasedContrast = darkIncreasedContrast
     }
 
+    /// The same values under another name, for tokens defined as "equal to" another one.
+    public func named(_ name: String) -> ColorToken {
+        ColorToken(
+            name,
+            light: light,
+            dark: dark,
+            lightIncreasedContrast: lightIncreasedContrast,
+            darkIncreasedContrast: darkIncreasedContrast
+        )
+    }
+
     /// The 0xRRGGBB value used for a given appearance.
     public func hex(for scheme: ColorScheme, contrast: ColorSchemeContrast = .standard) -> UInt32 {
         switch (scheme, contrast) {

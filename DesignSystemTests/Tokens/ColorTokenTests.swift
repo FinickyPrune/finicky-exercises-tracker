@@ -27,4 +27,21 @@ struct ColorTokenTests {
         #expect(contrasted.hex(for: .dark, contrast: .increased) == 0x444444)
         #expect(contrasted.hex(for: .light) == 0x111111)
     }
+
+    @Test func resolvesFromEnvironmentColorScheme() {
+        var environment = EnvironmentValues()
+        environment.colorScheme = .dark
+        #expect(contrasted.resolve(in: environment) == contrasted.color(for: .dark))
+        environment.colorScheme = .light
+        #expect(contrasted.resolve(in: environment) == contrasted.color(for: .light))
+    }
+
+    @Test func namedCopyKeepsEveryValue() {
+        let copy = contrasted.named("copy")
+        #expect(copy.name == "copy")
+        #expect(copy.light == contrasted.light)
+        #expect(copy.dark == contrasted.dark)
+        #expect(copy.lightIncreasedContrast == contrasted.lightIncreasedContrast)
+        #expect(copy.darkIncreasedContrast == contrasted.darkIncreasedContrast)
+    }
 }

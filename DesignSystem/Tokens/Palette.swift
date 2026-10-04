@@ -2,15 +2,22 @@ import SwiftUI
 
 /// App colors. Values and usage are documented in docs/DESIGN.md → Токены → Цвета.
 nonisolated public enum Palette {
-    /// Action and completion. White text on it is 2.6:1, so Increase Contrast darkens it to 4.7:1.
+    /// Action and completion. White text on it is 2.6:1 (light) and 2.3:1 (dark).
+    /// Increase Contrast: in light it darkens to 5.3:1 for white text and 4.6:1 on cards;
+    /// in dark it keeps its color, which already stands out on dark surfaces, and `onAccent` turns dark instead.
     public static let accent = ColorToken(
         "accent",
         light: 0xF77F3C,
         dark: 0xFF8A4C,
-        lightIncreasedContrast: 0xBF5219,
-        darkIncreasedContrast: 0xBF5219
+        lightIncreasedContrast: 0xB44A12
     )
-    public static let onAccent = ColorToken("onAccent", light: 0xFFFFFF, dark: 0xFFFFFF)
+    /// Text and icons on `accent`. Dark under Increase Contrast in dark appearance: 7.6:1.
+    public static let onAccent = ColorToken(
+        "onAccent",
+        light: 0xFFFFFF,
+        dark: 0xFFFFFF,
+        darkIncreasedContrast: 0x1A1716
+    )
     public static let background = ColorToken("background", light: 0xFAF8F6, dark: 0x171514)
     public static let surface = ColorToken("surface", light: 0xF0EDEA, dark: 0x262321)
     public static let surfaceRaised = ColorToken("surfaceRaised", light: 0xFFFFFF, dark: 0x302C2A)
@@ -39,7 +46,7 @@ nonisolated public struct DayPartTint: Hashable, Sendable {
     public static let morning = DayPartTint(
         name: "morning",
         background: ColorToken("morning.background", light: 0xFFE6D8, dark: 0x3D2A1F),
-        icon: ColorToken("morning.icon", light: 0xF77F3C, dark: 0xFF8A4C)
+        icon: Palette.accent.named("morning.icon")
     )
     public static let day = DayPartTint(
         name: "day",
@@ -68,7 +75,7 @@ nonisolated public enum RoutineTint: String, CaseIterable, Sendable {
 
     public var token: ColorToken {
         switch self {
-        case .orange: ColorToken("orange", light: Palette.accent.light, dark: Palette.accent.dark)
+        case .orange: Palette.accent.named("orange")
         case .coral: ColorToken("coral", light: 0xEE6A5A, dark: 0xF47E6F)
         case .amber: ColorToken("amber", light: 0xE09A2D, dark: 0xEBAE4A)
         case .terracotta: ColorToken("terracotta", light: 0xC2603C, dark: 0xD97A55)

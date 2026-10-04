@@ -2,7 +2,7 @@
     import DesignSystem
     import SwiftUI
 
-    /// Token name, its light and dark swatches and hex values; a third swatch when Increase Contrast differs.
+    /// Token name, its light and dark swatches and hex values, plus a swatch per Increase Contrast value.
     struct ColorTokenRow: View {
         let token: ColorToken
 
@@ -12,6 +12,9 @@
                 Swatch(token: token, scheme: .dark)
                 if token.lightIncreasedContrast != nil {
                     Swatch(token: token, scheme: .light, contrast: .increased)
+                }
+                if token.darkIncreasedContrast != nil {
+                    Swatch(token: token, scheme: .dark, contrast: .increased)
                 }
                 VStack(alignment: .leading, spacing: Spacing.xxSmall) {
                     Text(token.name)
@@ -27,6 +30,9 @@
             var parts = [token.light, token.dark].map(\.hexString)
             if let increased = token.lightIncreasedContrast {
                 parts.append("HC \(increased.hexString)")
+            }
+            if let increased = token.darkIncreasedContrast {
+                parts.append("HC dark \(increased.hexString)")
             }
             return parts.joined(separator: " · ")
         }
@@ -62,11 +68,16 @@
             title
         }
 
-        func ratio(_ scheme: ColorScheme, _ contrast: ColorSchemeContrast = .standard) -> Double {
-            Contrast.ratio(
-                foreground.hex(for: scheme, contrast: contrast),
-                background.hex(for: scheme, contrast: contrast)
-            )
+        /// Light, dark, then the same two with Increase Contrast.
+        var ratios: [Double] {
+            [ColorSchemeContrast.standard, .increased].flatMap { contrast in
+                [ColorScheme.light, .dark].map { scheme in
+                    Contrast.ratio(
+                        foreground.hex(for: scheme, contrast: contrast),
+                        background.hex(for: scheme, contrast: contrast)
+                    )
+                }
+            }
         }
 
         static let all = [
@@ -83,7 +94,7 @@
                 minimum: Contrast.text
             ),
             ContrastPair(
-                title: "Белый на акценте", foreground: Palette.onAccent, background: Palette.accent,
+                title: "Текст на акценте", foreground: Palette.onAccent, background: Palette.accent,
                 minimum: Contrast.large
             ),
             ContrastPair(
@@ -94,6 +105,14 @@
                 title: "Акцент на фоне", foreground: Palette.accent, background: Palette.background,
                 minimum: Contrast.large
             ),
+            ContrastPair(
+                title: "Акцент на карточке", foreground: Palette.accent, background: Palette.surface,
+                minimum: Contrast.large
+            ),
+            ContrastPair(
+                title: "Акцент на белой карточке", foreground: Palette.accent, background: Palette.surfaceRaised,
+                minimum: Contrast.large
+            ),
         ]
     }
 
@@ -102,28 +121,27 @@
 
         var body: some View {
             HStack {
-                Text(pair.title)
+                VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+                    Text(pair.title)
+                    Text(values)
+                        .font(.callout.monospacedDigit())
+                        .foregroundStyle(Palette.textSecondary)
+                }
                 Spacer()
-                Text(values)
-                    .font(.callout.monospacedDigit())
-                    .foregroundStyle(Palette.textSecondary)
                 Image(systemName: passes ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(passes ? Palette.textSecondary : Palette.accent)
                     .accessibilityLabel(passes ? "Проходит" : "Ниже минимума")
             }
         }
 
-        private var ratios: [Double] {
-            [pair.ratio(.light), pair.ratio(.dark), pair.ratio(.light, .increased)]
-        }
-
-        /// Warns when any of the three appearances is below the minimum.
+        /// Warns when any of the four appearances is below the minimum.
         private var passes: Bool {
-            ratios.allSatisfy { $0 >= pair.minimum }
+            pair.ratios.allSatisfy { $0 >= pair.minimum }
         }
 
         private var values: String {
-            ratios.map { $0.formatted(.number.precision(.fractionLength(1))) }.joined(separator: " · ")
+            let formatted = pair.ratios.map { $0.formatted(.number.precision(.fractionLength(1))) }
+            return "\(formatted[0]) · \(formatted[1])   HC \(formatted[2]) · \(formatted[3])"
         }
     }
 
