@@ -7,7 +7,7 @@ Native iOS app for tracking exercises. Pet project.
 Requires Xcode 26+ and Homebrew.
 
 ```sh
-make bootstrap   # installs xcodegen, swiftlint, swiftformat
+make bootstrap   # installs xcodegen and swiftlint via Homebrew, downloads pinned SwiftFormat
 make open        # generates ExercisesTracker.xcodeproj and opens it
 ```
 
