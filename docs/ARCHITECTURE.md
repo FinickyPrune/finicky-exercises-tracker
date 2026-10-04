@@ -43,6 +43,69 @@ DayPart «Утро» (с 05:00)
 
 ## Схема v1
 
+Сплошные линии — связи SwiftData, пунктирные — ссылки по `UUID` без связи: история не зависит от шаблона и переживает его удаление. `RoutineRun` и `StepResult` появятся в 1.2. Диаграмму обновляем в том же PR, что и модели.
+
+```mermaid
+erDiagram
+    DayPart ||--o{ Routine : "routines · cascade"
+    Routine ||--o{ Step : "steps · cascade"
+    Exercise |o--o{ Step : "steps · nullify"
+    RoutineRun ||--o{ StepResult : "results · cascade"
+    Exercise |o--o{ StepResult : "для графиков"
+    DayPart ||..o{ RoutineRun : "dayPartID"
+    Routine ||..o{ RoutineRun : "routineID"
+    Step ||..o{ StepResult : "stepID"
+
+    DayPart {
+        UUID id PK
+        String name "Утро"
+        String symbol "SF Symbol"
+        Int startMinute "300 = 05:00"
+        Int sortIndex
+    }
+    Routine {
+        UUID id PK
+        String name "Зарядка"
+        String symbol "SF Symbol"
+        String colorName "RoutineTint"
+        Int weekdaysRaw "Weekdays, пн = 1"
+        Int sortIndex
+        Bool isArchived
+    }
+    Step {
+        UUID id PK
+        Int sortIndex
+        String kindRaw "exercise, link, check"
+        Data configData "JSON StepConfig"
+    }
+    Exercise {
+        UUID id PK
+        String name "Приседания"
+        String notes
+        Data photo "externalStorage"
+        Bool isArchived
+    }
+    RoutineRun {
+        UUID id PK
+        Int dayKey "20261002"
+        UUID routineID
+        String routineName "снимок"
+        UUID dayPartID
+        Date startedAt
+        Date completedAt
+    }
+    StepResult {
+        UUID id PK
+        UUID stepID
+        Int sortIndex
+        String kindRaw
+        String title "снимок"
+        Data planData "снимок StepConfig"
+        Data actualData "факт"
+        Date completedAt
+    }
+```
+
 ```swift
 // Шаблон
 
