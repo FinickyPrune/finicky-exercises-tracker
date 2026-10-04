@@ -140,7 +140,7 @@ struct ExerciseStep: StepKind {
     var sets: Int
     var target: Target
     var restSeconds: Int?
-    typealias Result = [SetResult] // факт по каждому подходу: повторы или секунды
+    typealias Result = [Target]     // факт по каждому подходу в тех же единицах; меньше повторов — всё равно сделано
 }
 
 struct LinkStep: StepKind {
@@ -162,7 +162,8 @@ struct CheckStep: StepKind {
 - **День — это `dayKey: Int`** (yyyyMMdd в календаре пользователя), а не `Date`. Серии не ломаются из-за смены часового пояса и перехода на летнее время.
 - **У каждой модели `id: UUID`** — стабильные ссылки из истории, виджета и диплинков.
 - **Бизнес-логика — чистые функции над value-типами**: расписание, серия, завершённость. Тестируется без SwiftData.
-- **Схема версионируется с первого дня**: `VersionedSchema` + `SchemaMigrationPlan`.
+- **Схема версионируется с первого дня**: `VersionedSchema` + `SchemaMigrationPlan`. Модели вложены в `SchemaV1` (`Core/Model/SchemaV1.swift`), остальной код видит их через `typealias DayPart = SchemaV1.DayPart` и т. д. До первого релиза v1 ещё дополняется (история — в 1.2); после релиза она заморожена, изменения идут в `SchemaV2` и этап `AppMigrationPlan`.
+- **Настройки шага читаются через `Step.config`, пишутся через `Step.setConfig(_:)`** — так `kindRaw` не расходится с `configData`. Value-типы шагов и `Weekdays` — `nonisolated`, их можно кодировать вне главного потока.
 - **Простая или составная рутина:** если в рутине ровно один шаг-ссылка или отметка, она выполняется прямо в списке «Сегодня». Иначе открывается отдельный экран.
 
 ## Модули
