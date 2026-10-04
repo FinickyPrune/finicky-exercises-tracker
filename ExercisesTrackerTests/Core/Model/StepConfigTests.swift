@@ -1,9 +1,9 @@
-import Foundation
 @testable import ExercisesTracker
+import Foundation
 import Testing
 
 struct StepConfigTests {
-    nonisolated private static let configs: [StepConfig] = [
+    private nonisolated static let configs: [StepConfig] = [
         .exercise(ExerciseStep(sets: 3, target: .reps(15), restSeconds: nil)),
         .exercise(ExerciseStep(sets: 3, target: .duration(seconds: 30), restSeconds: 20)),
         .link(LinkStep(title: "Урок", url: testURL("duolingo://"))),

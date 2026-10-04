@@ -1,12 +1,12 @@
-import Foundation
 @testable import ExercisesTracker
+import Foundation
 import Testing
 
 struct WeekdaysTests {
     @Test func rawValuesStartAtMonday() {
         #expect(Weekdays.monday.rawValue == 1)
         #expect(Weekdays.sunday.rawValue == 1 << 6)
-        #expect(Weekdays.everyDay.rawValue == 0b111_1111)
+        #expect(Weekdays.everyDay.rawValue == 0b1111111)
     }
 
     @Test func groupsCoverTheWeek() {

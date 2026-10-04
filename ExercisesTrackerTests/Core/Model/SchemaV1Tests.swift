@@ -1,5 +1,5 @@
-import Foundation
 @testable import ExercisesTracker
+import Foundation
 import SwiftData
 import Testing
 
@@ -28,12 +28,12 @@ struct SchemaV1Tests {
         context.insert(morning)
         context.insert(squats)
         morning.routines = [workout, journal]
-        workout.steps = [
-            try Step(sortIndex: 0, config: .exercise(ExerciseStep(sets: 3, target: .reps(15))), exercise: squats),
-            try Step(sortIndex: 1, config: .check(CheckStep(title: "Растяжка"))),
+        workout.steps = try [
+            Step(sortIndex: 0, config: .exercise(ExerciseStep(sets: 3, target: .reps(15))), exercise: squats),
+            Step(sortIndex: 1, config: .check(CheckStep(title: "Растяжка"))),
         ]
-        journal.steps = [
-            try Step(sortIndex: 0, config: .link(LinkStep(title: "Запись", url: testURL("journal://")))),
+        journal.steps = try [
+            Step(sortIndex: 0, config: .link(LinkStep(title: "Запись", url: testURL("journal://")))),
         ]
         try context.save()
         return (morning, squats)
