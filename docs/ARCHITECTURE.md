@@ -43,7 +43,7 @@ DayPart «Утро» (с 05:00)
 
 ## Схема v1
 
-Сплошные линии — связи SwiftData, пунктирные — ссылки по `UUID` без связи: история не зависит от шаблона и переживает его удаление. `RoutineRun` и `StepResult` появятся в 1.2. Диаграмму обновляем в том же PR, что и модели.
+Сплошные линии — связи SwiftData, пунктирные — ссылки по `UUID` без связи: история не зависит от шаблона и переживает его удаление. Диаграмму обновляем в том же PR, что и модели.
 
 ```mermaid
 erDiagram
@@ -51,7 +51,7 @@ erDiagram
     Routine ||--o{ Step : "steps · cascade"
     Exercise |o--o{ Step : "steps · nullify"
     RoutineRun ||--o{ StepResult : "results · cascade"
-    Exercise |o--o{ StepResult : "для графиков"
+    Exercise |o--o{ StepResult : "results · nullify, для графиков"
     DayPart ||..o{ RoutineRun : "dayPartID"
     Routine ||..o{ RoutineRun : "routineID"
     Step ||..o{ StepResult : "stepID"
@@ -90,7 +90,7 @@ erDiagram
         Int dayKey "20261002"
         UUID routineID
         String routineName "снимок"
-        UUID dayPartID
+        UUID dayPartID "может не быть"
         Date startedAt
         Date completedAt
     }
@@ -101,7 +101,7 @@ erDiagram
         String kindRaw
         String title "снимок"
         Data planData "снимок StepConfig"
-        Data actualData "факт"
+        Data actualData "JSON StepActual, пусто — не отмечено"
         Date completedAt
     }
 ```
@@ -150,16 +150,20 @@ erDiagram
     // Обратная связь обязательна: без неё удаление упражнения оставляет у шага ссылку на удалённый объект
     @Relationship(deleteRule: .nullify, inverse: \Step.exercise)
     var steps: [Step]
+    @Relationship(deleteRule: .nullify, inverse: \StepResult.exercise)
+    var results: [StepResult]
 }
 
-// История
+// История — Core/Model/SchemaV1+History.swift.
+// RoutineRun.start(routine, at:, calendar:) создаёт выполнение: по результату на шаг, в порядке шагов,
+// с копией планов. Факт пишется через StepResult.record(_:at:) или recordAsPlanned(at:).
 
 @Model final class RoutineRun {
     var id: UUID
     var dayKey: Int                // 20261002 — день в календаре пользователя
     var routineID: UUID            // ссылка на шаблон; шаблон может быть уже удалён
     var routineName: String        // снимок
-    var dayPartID: UUID
+    var dayPartID: UUID?           // рутина могла быть без части дня
     var startedAt: Date
     var completedAt: Date?
     @Relationship(deleteRule: .cascade, inverse: \StepResult.run)
@@ -173,7 +177,7 @@ erDiagram
     var kindRaw: String
     var title: String              // снимок: название упражнения или шага
     var planData: Data             // снимок StepConfig на момент выполнения
-    var actualData: Data           // фактический результат, формат зависит от вида шага
+    var actualData: Data?          // JSON StepActual: {"type":"exercise","value":[{"reps":15}]}; nil — ещё не отмечено
     var exercise: Exercise?        // для графиков по упражнению
     var completedAt: Date?
     var run: RoutineRun?
