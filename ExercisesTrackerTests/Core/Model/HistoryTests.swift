@@ -132,6 +132,86 @@ struct HistoryTests {
         #expect(!run.isComplete)
     }
 
+    @Test func runCompletionFollowsItsSteps() throws {
+        let (workout, _) = try insertWorkout()
+        let run = try startRun(of: workout)
+        let later = morning.addingTimeInterval(600)
+
+        for result in run.orderedResults {
+            try result.recordAsPlanned(at: morning)
+        }
+        #expect(run.completedAt == morning)
+
+        try run.orderedResults[0].record(.exercise([.reps(15), .reps(12), .reps(10)]), at: later)
+        #expect(run.completedAt == morning)
+
+        try run.orderedResults[2].record(nil, at: later)
+        #expect(run.completedAt == nil)
+    }
+
+    /// Correcting the fact in the evening keeps the morning time.
+    @Test func editingFactKeepsOriginalCompletionTime() throws {
+        let (workout, _) = try insertWorkout()
+        let run = try startRun(of: workout)
+        let squats = try #require(run.orderedResults.first)
+        let evening = morning.addingTimeInterval(12 * 3600)
+
+        try squats.recordAsPlanned(at: morning)
+        try squats.record(.exercise([.reps(15), .reps(12), .reps(10)]), at: evening)
+
+        #expect(squats.completedAt == morning)
+    }
+
+    @Test func resultOfAnotherKindIsRejected() throws {
+        let (workout, _) = try insertWorkout()
+        let run = try startRun(of: workout)
+        let squats = try #require(run.orderedResults.first)
+
+        #expect(throws: HistoryError.kindMismatch(expected: "exercise", got: "check")) {
+            try squats.record(.check(true), at: morning)
+        }
+        #expect(squats.actualData == nil)
+    }
+
+    @Test func exerciseStepWithoutExerciseStillHasATitle() throws {
+        let (workout, squats) = try insertWorkout()
+        context.delete(squats)
+        try context.save()
+
+        let run = try startRun(of: workout)
+
+        #expect(run.orderedResults.first?.title == "Упражнение")
+    }
+
+    @Test func unreadableStepIsLeftOutOfTheRun() throws {
+        let (workout, _) = try insertWorkout()
+        let broken = try #require(workout.steps.first { $0.sortIndex == 2 })
+        broken.configData = Data(#"{"type":"strength","settings":{}}"#.utf8)
+        try context.save()
+
+        let run = try startRun(of: workout)
+
+        #expect(run.orderedResults.map(\.title) == ["Приседания", "Планка"])
+    }
+
+    @Test func emptyRoutineRunIsNotComplete() throws {
+        let routine = Routine(name: "Пусто", symbol: "circle", colorName: "sand", sortIndex: 0)
+        context.insert(routine)
+        let run = try startRun(of: routine)
+        #expect(!run.isComplete)
+    }
+
+    @Test func corruptActualReadsAsNothing() throws {
+        let (workout, _) = try insertWorkout()
+        let run = try startRun(of: workout)
+        let squats = try #require(run.orderedResults.first)
+
+        squats.actualData = Data("garbage".utf8)
+
+        #expect(squats.actual == nil)
+        #expect(!squats.isComplete)
+    }
+
     @Test func deletingRunDeletesItsResults() throws {
         let (workout, _) = try insertWorkout()
         let run = try startRun(of: workout)

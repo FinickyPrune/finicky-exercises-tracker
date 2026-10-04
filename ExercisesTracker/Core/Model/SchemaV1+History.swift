@@ -38,6 +38,8 @@ extension SchemaV1 {
         }
 
         /// Starts a run of `routine`: one result per step, in step order, with a copy of each step's plan.
+        /// Steps whose settings cannot be read (a kind from a newer app version) are left out:
+        /// they could never be completed and would keep the run unfinished forever.
         static func start(_ routine: Routine, at date: Date, calendar: Calendar) -> RoutineRun {
             let run = RoutineRun(
                 dayKey: DayKey.of(date, in: calendar),
@@ -47,6 +49,7 @@ extension SchemaV1 {
                 startedAt: date
             )
             run.results = routine.steps
+                .filter { $0.config != nil }
                 .sorted { $0.sortIndex < $1.sortIndex }
                 .enumerated()
                 .map { index, step in StepResult(snapshotOf: step, sortIndex: index) }
@@ -61,6 +64,12 @@ extension SchemaV1 {
         /// Every step has a result that completes its plan.
         var isComplete: Bool {
             !results.isEmpty && results.allSatisfy(\.isComplete)
+        }
+
+        /// Keeps `completedAt` in step with the results: set once the last step is done, cleared on undo.
+        /// Called by `StepResult.record`, so screens do not have to.
+        func updateCompletion(at date: Date) {
+            completedAt = isComplete ? (completedAt ?? date) : nil
         }
     }
 
@@ -123,15 +132,22 @@ extension SchemaV1 {
             actualData.flatMap { try? StepActual(data: $0) }
         }
 
-        /// Records what was done. `completedAt` is set when the result completes the plan and cleared otherwise.
+        /// Records what was done; `nil` takes it back.
+        ///
+        /// `completedAt` is set the first time the step becomes complete and kept when the fact is edited later,
+        /// so correcting reps in the evening does not move a morning workout. The run's completion follows.
         func record(_ actual: StepActual?, at date: Date) throws {
+            if let actual, actual.kind != kindRaw {
+                throw HistoryError.kindMismatch(expected: kindRaw, got: actual.kind)
+            }
             actualData = try actual?.encoded()
-            completedAt = isComplete ? date : nil
+            completedAt = isComplete ? (completedAt ?? date) : nil
+            run?.updateCompletion(at: date)
         }
 
         /// «По плану» in one tap.
         func recordAsPlanned(at date: Date) throws {
-            guard let plan else { return }
+            guard let plan else { throw HistoryError.unreadablePlan }
             try record(StepActual(asPlannedFor: plan), at: date)
         }
 
@@ -142,11 +158,19 @@ extension SchemaV1 {
 
         private static func title(of step: Step) -> String {
             switch step.config {
-            case .exercise: step.exercise?.name ?? ""
+            // The library entry may already be deleted; the history row still needs a name.
+            case .exercise: step.exercise?.name ?? String(localized: "Упражнение")
             case let .link(link): link.title
             case let .check(check): check.title
             case nil: ""
             }
         }
     }
+}
+
+enum HistoryError: Error, Equatable {
+    /// A result of another kind than the step, e.g. a checkbox value for an exercise.
+    case kindMismatch(expected: String, got: String)
+    /// The plan snapshot cannot be decoded, so «по плану» is unknown.
+    case unreadablePlan
 }

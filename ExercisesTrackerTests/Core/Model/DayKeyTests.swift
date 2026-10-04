@@ -50,6 +50,25 @@ struct DayKeyTests {
         #expect(try DayKey.of(date(belgrade, 2026, 3, 29, 23, 30), in: belgrade) == 20_260_329)
     }
 
+    /// In autumn 02:30 happens twice; both are the same day.
+    @Test func fallBackDayIsOneDay() throws {
+        let belgrade = try calendar("Europe/Belgrade")
+        // 2026-10-25: clocks go back from 03:00 to 02:00. 00:30 UTC and 01:30 UTC are both 02:30 local.
+        let first = Date(timeIntervalSince1970: 1_792_888_200) // 2026-10-25 00:30 UTC
+        let second = first.addingTimeInterval(3600)
+        #expect(DayKey.of(first, in: belgrade) == 20_261_025)
+        #expect(DayKey.of(second, in: belgrade) == 20_261_025)
+    }
+
+    /// A user with the Buddhist calendar still gets Gregorian keys (2026, not 2569).
+    @Test(arguments: [Calendar.Identifier.buddhist, .japanese, .islamicUmmAlQura])
+    func isGregorianWhateverTheUserCalendar(identifier: Calendar.Identifier) throws {
+        let belgrade = try calendar("Europe/Belgrade")
+        var other = Calendar(identifier: identifier)
+        other.timeZone = belgrade.timeZone
+        #expect(try DayKey.of(date(belgrade, 2026, 10, 2, 7), in: other) == 20_261_002)
+    }
+
     @Test func componentsRoundTrip() throws {
         let belgrade = try calendar("Europe/Belgrade")
         let parts = DayKey.components(of: 20_261_002)

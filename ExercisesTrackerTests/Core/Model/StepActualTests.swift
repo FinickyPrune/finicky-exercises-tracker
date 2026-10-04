@@ -37,6 +37,12 @@ struct StepActualTests {
         #expect(!StepActual.check(false).completes(vitamins))
     }
 
+    @Test func otherUnitDoesNotComplete() {
+        #expect(!StepActual.exercise([.duration(seconds: 15), .duration(seconds: 15), .duration(seconds: 15)])
+            .completes(squats))
+        #expect(!StepActual.exercise([.reps(30), .reps(30)]).completes(plank))
+    }
+
     @Test func otherKindNeverCompletes() {
         #expect(!StepActual.check(true).completes(lesson))
         #expect(!StepActual.exercise([.reps(15)]).completes(vitamins))
