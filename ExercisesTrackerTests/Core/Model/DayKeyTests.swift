@@ -9,8 +9,15 @@ struct DayKeyTests {
         return calendar
     }
 
-    private func date(_ calendar: Calendar, _ year: Int, _ month: Int, _ day: Int, _ hour: Int, _ minute: Int = 0,
-                      _ second: Int = 0) throws -> Date {
+    private func date(
+        _ calendar: Calendar,
+        _ year: Int,
+        _ month: Int,
+        _ day: Int,
+        _ hour: Int,
+        _ minute: Int = 0,
+        _ second: Int = 0
+    ) throws -> Date {
         try #require(calendar.date(from: DateComponents(
             year: year, month: month, day: day, hour: hour, minute: minute, second: second
         )))
