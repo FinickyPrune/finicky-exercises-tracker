@@ -50,6 +50,11 @@ public nonisolated enum Opacity {
     public static let onAccentFill = 0.22
 }
 
+public nonisolated enum Stroke {
+    /// Dashed outline of an empty slot — the only outline in the design.
+    public static let dashed = StrokeStyle(lineWidth: 1.5, dash: [6, 5])
+}
+
 public extension Shape where Self == RoundedRectangle {
     nonisolated static var card: RoundedRectangle {
         RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
