@@ -5,9 +5,11 @@
     /// Debug-only catalog of every design-system token. Review of design changes goes by its screenshots.
     ///
     /// Launch arguments for screenshots: `-showGallery YES` opens it (see `RootView`),
-    /// `-gallerySection <id>` scrolls to a section: headers, cards, controls, colors, contrast, dayParts, routines,
-    /// typography, spacing, shapes.
+    /// `-gallerySection <id>` scrolls to a section: headers, cards, controls, feedback, colors, contrast, dayParts,
+    /// routines, typography, spacing, shapes.
     struct DesignSystemGallery: View {
+        @State private var celebrating = false
+
         var body: some View {
             ScrollViewReader { proxy in
                 List {
@@ -23,6 +25,14 @@
                         ControlSamples()
                     }
                     .id("controls")
+                    Section {
+                        FeedbackSamples(celebrating: $celebrating)
+                    } header: {
+                        Text("Отклик")
+                    } footer: {
+                        Text("Хаптики — только на iPhone, симулятор не вибрирует.")
+                    }
+                    .id("feedback")
                     Section("Цвета") {
                         ForEach(Palette.all) { token in
                             ColorTokenRow(token: token)
@@ -66,6 +76,7 @@
                 }
                 .scrollContentBackground(.hidden)
                 .background(Palette.background)
+                .overlay { CelebrationOverlay(isPresented: $celebrating) }
                 .navigationTitle("Design System")
                 .onAppear {
                     if let section = UserDefaults.standard.string(forKey: "gallerySection") {
