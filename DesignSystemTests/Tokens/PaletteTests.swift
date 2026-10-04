@@ -5,7 +5,7 @@ import Testing
 /// Contrast guarantees from docs/DESIGN.md. A token change that breaks one of them fails here.
 struct PaletteTests {
     /// `nonisolated`: `@Test(arguments:)` reads it outside the main actor.
-    nonisolated private static let schemes: [ColorScheme] = [.light, .dark]
+    private nonisolated static let schemes: [ColorScheme] = [.light, .dark]
 
     private func ratio(
         _ foreground: ColorToken,

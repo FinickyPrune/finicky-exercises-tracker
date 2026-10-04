@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// App colors. Values and usage are documented in docs/DESIGN.md → Токены → Цвета.
-nonisolated public enum Palette {
+public nonisolated enum Palette {
     /// Action and completion. White text on it is 2.6:1 (light) and 2.3:1 (dark).
     /// Increase Contrast: in light it darkens to 5.3:1 for white text and 4.6:1 on cards;
     /// in dark it keeps its color, which already stands out on dark surfaces, and `onAccent` turns dark instead.
@@ -38,7 +38,7 @@ nonisolated public enum Palette {
 }
 
 /// Background and icon color of a part of the day.
-nonisolated public struct DayPartTint: Hashable, Sendable {
+public nonisolated struct DayPartTint: Hashable, Sendable {
     public let name: String
     public let background: ColorToken
     public let icon: ColorToken
@@ -63,7 +63,7 @@ nonisolated public struct DayPartTint: Hashable, Sendable {
 }
 
 /// Color a routine is drawn with; picked in the editor. The raw value is what gets stored.
-nonisolated public enum RoutineTint: String, CaseIterable, Sendable {
+public nonisolated enum RoutineTint: String, CaseIterable, Sendable {
     case orange
     case coral
     case amber

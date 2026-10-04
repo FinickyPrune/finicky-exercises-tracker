@@ -1,7 +1,7 @@
 import Foundation
 
 /// WCAG 2 contrast ratio between two sRGB colors given as 0xRRGGBB.
-nonisolated public enum Contrast {
+public nonisolated enum Contrast {
     /// Minimum for normal text.
     public static let text = 4.5
     /// Minimum for large or bold text and for meaningful non-text marks (icons, checkmarks).

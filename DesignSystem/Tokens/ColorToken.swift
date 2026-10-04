@@ -5,7 +5,7 @@ import SwiftUI
 /// Use it anywhere SwiftUI takes a `ShapeStyle`: `.foregroundStyle(Palette.accent)`,
 /// `.background(Palette.surface, in: .card)`. It resolves from the environment, so it follows the
 /// color scheme and contrast of the view it is drawn in, and it is safe to resolve off the main thread.
-nonisolated public struct ColorToken: ShapeStyle, Hashable, Identifiable {
+public nonisolated struct ColorToken: ShapeStyle, Hashable, Identifiable {
     public let name: String
     public let light: UInt32
     public let dark: UInt32

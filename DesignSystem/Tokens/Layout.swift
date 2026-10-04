@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Spacing scale: 4 · 8 · 12 · 16 · 20 · 24 · 32, plus the semantic values chosen in 0.1.
-nonisolated public enum Spacing {
+public nonisolated enum Spacing {
     public static let xxSmall: CGFloat = 4
     public static let xSmall: CGFloat = 8
     public static let small: CGFloat = 12
@@ -23,14 +23,14 @@ nonisolated public enum Spacing {
 }
 
 /// Corner radii. Always used with `.continuous` corners; see the shapes below.
-nonisolated public enum Radius {
+public nonisolated enum Radius {
     public static let card: CGFloat = 28
     public static let row: CGFloat = 20
     public static let small: CGFloat = 12
 }
 
 /// Base sizes. Components scale them with Dynamic Type through `@ScaledMetric`.
-nonisolated public enum Size {
+public nonisolated enum Size {
     /// Round buttons: check, play.
     public static let button: CGFloat = 44
     /// Routine icon in a circle.
@@ -41,7 +41,7 @@ nonisolated public enum Size {
     public static let progressBar: CGFloat = 8
 }
 
-nonisolated public enum Opacity {
+public nonisolated enum Opacity {
     /// Completed tiles and rows.
     public static let completed = 0.6
     /// Fill behind a colored icon: the icon color at this opacity.
