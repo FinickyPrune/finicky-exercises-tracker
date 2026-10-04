@@ -35,9 +35,9 @@ nonisolated struct ExerciseStep: StepKind {
         Array(repeating: target, count: sets)
     }
 
-    /// Done when every set has a recorded fact.
+    /// Done when every set has a recorded fact in the plan's units (reps for reps, seconds for a duration).
     func isComplete(_ result: [Target]) -> Bool {
-        result.count >= sets
+        result.count >= sets && result.allSatisfy { $0.isSameUnit(as: target) }
     }
 }
 
@@ -142,6 +142,16 @@ nonisolated extension StepConfig {
         case let .exercise(step): try container.encode(step, forKey: .settings)
         case let .link(step): try container.encode(step, forKey: .settings)
         case let .check(step): try container.encode(step, forKey: .settings)
+        }
+    }
+}
+
+nonisolated extension ExerciseStep.Target {
+    /// Both are reps, or both are durations; the numbers may differ.
+    func isSameUnit(as other: Self) -> Bool {
+        switch (self, other) {
+        case (.reps, .reps), (.duration, .duration): true
+        default: false
         }
     }
 }

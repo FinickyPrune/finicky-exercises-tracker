@@ -6,16 +6,19 @@ typealias DayPart = SchemaV1.DayPart
 typealias Routine = SchemaV1.Routine
 typealias Step = SchemaV1.Step
 typealias Exercise = SchemaV1.Exercise
+typealias RoutineRun = SchemaV1.RoutineRun
+typealias StepResult = SchemaV1.StepResult
 
-/// Schema v1: the template graph (docs/ARCHITECTURE.md → Схема v1).
+/// Schema v1: the template graph here and the history graph in `SchemaV1+History.swift`
+/// (docs/ARCHITECTURE.md → Схема v1).
 ///
-/// Until the first release v1 may still change — the history models join it in 1.2.
+/// Until the first release v1 may still change.
 /// After a release it is frozen: changes go into `SchemaV2` and a stage in `AppMigrationPlan`.
 enum SchemaV1: VersionedSchema {
     static let versionIdentifier = Schema.Version(1, 0, 0)
 
     static var models: [any PersistentModel.Type] {
-        [DayPart.self, Routine.self, Step.self, Exercise.self]
+        [DayPart.self, Routine.self, Step.self, Exercise.self, RoutineRun.self, StepResult.self]
     }
 
     /// A part of the day: «Утро», «Вечер». Its start time decides which part is current.
@@ -130,6 +133,9 @@ enum SchemaV1: VersionedSchema {
         /// set `Step.exercise` to `nil` instead of leaving a reference to a deleted object.
         @Relationship(deleteRule: .nullify, inverse: \Step.exercise)
         var steps: [Step]
+        /// History of this exercise, for charts. Nullified, not deleted: history outlives the library entry.
+        @Relationship(deleteRule: .nullify, inverse: \StepResult.exercise)
+        var results: [StepResult]
 
         init(id: UUID = UUID(), name: String, notes: String = "", photo: Data? = nil, isArchived: Bool = false) {
             self.id = id
@@ -138,6 +144,7 @@ enum SchemaV1: VersionedSchema {
             self.photo = photo
             self.isArchived = isArchived
             steps = []
+            results = []
         }
     }
 }
