@@ -37,5 +37,4 @@ struct FeedbackEventTests {
         #expect(event.animation(reduceMotion: false) == .snappy)
         #expect(event.animation(reduceMotion: true) == .snappy)
     }
-
 }

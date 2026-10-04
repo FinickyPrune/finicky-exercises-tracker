@@ -25,7 +25,11 @@
                         .background(Palette.surface, in: .circle)
                 } play: {
                     stepDone.toggle()
-                    if stepDone { completions += 1 } else { undos += 1 }
+                    if stepDone {
+                        completions += 1
+                    } else {
+                        undos += 1
+                    }
                 }
                 .feedback(.stepCompleted, trigger: completions)
                 .feedback(.undone, trigger: undos)
@@ -45,7 +49,9 @@
                         EmptyView()
                     } play: {
                         routineDone.toggle()
-                        if routineDone { routineFlashes += 1 }
+                        if routineDone {
+                            routineFlashes += 1
+                        }
                     }
                     RoutineCard(
                         "Зарядка", status: routineDone ? "6 из 6" : "5 из 6", symbol: "figure.cooldown",
