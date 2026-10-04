@@ -27,7 +27,7 @@ Always go through the Makefile — CI runs the same targets.
 | `make test` | Run unit tests on the simulator (`SIMULATOR="..."` to override) |
 | `make lint` | SwiftLint, strict |
 | `make check` | lint + test — the dev loop |
-| `make format` | SwiftFormat in place — only before a PR |
+| `make format` | SwiftFormat in place — only before a PR. Pinned version (Makefile), downloaded to `.build/tools/` on first use |
 
 Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xcresulttool get test-results summary --path <file>`.
 
