@@ -1,6 +1,8 @@
 included:
   - ExercisesTracker
   - ExercisesTrackerTests
+  - DesignSystem
+  - DesignSystemTests
 
 # Layout is owned by SwiftFormat, which runs only before a PR.
 # These rules would otherwise fail `make lint` on whitespace mid-work.

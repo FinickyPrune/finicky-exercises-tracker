@@ -21,7 +21,7 @@ Do not edit files, commit, or run formatters. You may run `make lint` and `make 
 2. **Concurrency**: the app target defaults to `MainActor` isolation. Look for work that blocks the main actor, misuse of `nonisolated`, `@unchecked Sendable` without justification, unstructured `Task {}` that outlives its owner.
 3. **SwiftUI state**: wrong ownership (`@State` vs passed-in model), state that should be `private`, expensive work in `body`, identity issues in `ForEach`.
 4. **Memory**: retain cycles in closures stored on long-lived objects.
-5. **Tests**: new logic without tests in `ExercisesTrackerTests/`, tests that don't assert anything meaningful.
+5. **Tests**: new logic without tests in `ExercisesTrackerTests/` or `DesignSystemTests/`, tests that don't assert anything meaningful.
 6. **Design system**: color, font, spacing or radius literals and direct haptic calls in `Features/` instead of `DesignSystem` tokens, components and feedback events (see `docs/DESIGN.md`).
 7. **Accessibility**: missing labels on icon-only controls, hard-coded font sizes that ignore Dynamic Type, celebrations that ignore Reduce Motion.
 8. **Project hygiene**: edits to the generated `.xcodeproj` instead of `project.yml`, new third-party dependencies, stray debug code.
