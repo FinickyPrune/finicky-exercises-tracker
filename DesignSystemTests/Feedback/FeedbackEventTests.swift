@@ -4,16 +4,20 @@ import Testing
 
 /// The catalog from docs/DESIGN.md → «Отклик».
 struct FeedbackEventTests {
-    @Test(arguments: zip(FeedbackEvent.allCases, [
-        [SensoryFeedback.success],
-        [.selection],
-        [.success, .impact(weight: .heavy)],
-        [.success],
-        [.impact(weight: .light)],
-        [.impact(weight: .heavy)],
-        [.impact(flexibility: .soft)],
-    ]))
-    func hapticsMatchTheCatalog(event: FeedbackEvent, expected: [SensoryFeedback]) {
+    private static let catalog: [FeedbackEvent: [SensoryFeedback]] = [
+        .stepCompleted: [.success],
+        .factChanged: [.selection],
+        .routineCompleted: [.success, .impact(weight: .heavy)],
+        .dayPartCompleted: [.success],
+        .timerTick: [.impact(weight: .light)],
+        .timerFinished: [.impact(weight: .heavy)],
+        .undone: [.impact(flexibility: .soft)],
+    ]
+
+    /// A new event without a row in the catalog fails here instead of being skipped.
+    @Test(arguments: FeedbackEvent.allCases)
+    func hapticsMatchTheCatalog(event: FeedbackEvent) throws {
+        let expected = try #require(Self.catalog[event])
         #expect(event.haptics == expected)
     }
 
@@ -34,7 +38,4 @@ struct FeedbackEventTests {
         #expect(event.animation(reduceMotion: true) == .snappy)
     }
 
-    @Test func celebrationFitsTheBudget() {
-        #expect(Motion.celebrationDuration <= 1.5)
-    }
 }

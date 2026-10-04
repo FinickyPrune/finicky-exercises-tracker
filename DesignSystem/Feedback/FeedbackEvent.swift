@@ -38,8 +38,8 @@ public nonisolated enum FeedbackEvent: CaseIterable, Hashable, Sendable {
         }
     }
 
-    /// The animation for this event; `nil` means «just appear», without motion.
-    public func animation(reduceMotion: Bool) -> Animation? {
+    /// The animation for this event. Under Reduce Motion a celebration becomes a short fade — «простое появление».
+    public func animation(reduceMotion: Bool) -> Animation {
         if isCelebration {
             return reduceMotion ? .easeInOut(duration: Motion.fadeDuration) : .bouncy
         }
