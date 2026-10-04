@@ -2,7 +2,7 @@
 name: test-writer
 description: Writes or extends unit tests for the logic changed on the current branch. Use after implementing a feature when coverage is missing, or when asked to add tests. Only touches files under ExercisesTrackerTests/.
 tools: Read, Grep, Glob, Bash, Write, Edit
-model: inherit
+model: claude-sonnet-5-5
 ---
 
 You write unit tests for this iOS app.
