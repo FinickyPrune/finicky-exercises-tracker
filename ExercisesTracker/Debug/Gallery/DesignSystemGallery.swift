@@ -5,11 +5,24 @@
     /// Debug-only catalog of every design-system token. Review of design changes goes by its screenshots.
     ///
     /// Launch arguments for screenshots: `-showGallery YES` opens it (see `RootView`),
-    /// `-gallerySection <id>` scrolls to a section: colors, contrast, dayParts, routines, typography, spacing, shapes.
+    /// `-gallerySection <id>` scrolls to a section: headers, cards, controls, colors, contrast, dayParts, routines,
+    /// typography, spacing, shapes.
     struct DesignSystemGallery: View {
         var body: some View {
             ScrollViewReader { proxy in
                 List {
+                    Section("Части дня и пустой слот") {
+                        HeaderSamples()
+                    }
+                    .id("headers")
+                    Section("Плитки рутин") {
+                        CardSamples()
+                    }
+                    .id("cards")
+                    Section("План и кнопки") {
+                        ControlSamples()
+                    }
+                    .id("controls")
                     Section("Цвета") {
                         ForEach(Palette.all) { token in
                             ColorTokenRow(token: token)

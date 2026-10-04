@@ -192,5 +192,6 @@ ExercisesTracker/
     Gallery/          галерея дизайн-системы, только Debug
 DesignSystem/         framework-таргет: токены, компоненты, хаптики и анимации — см. DESIGN.md
   Tokens/
+  Components/
 DesignSystemTests/
 ```

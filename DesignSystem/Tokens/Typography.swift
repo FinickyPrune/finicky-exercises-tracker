@@ -10,6 +10,8 @@ public extension Font {
     nonisolated static let itemStatus = Font.subheadline
     /// Units next to a plan number: «× », « повт».
     nonisolated static let planUnit = Font.subheadline.weight(.medium)
+    /// Capsule button titles.
+    nonisolated static let buttonLabel = Font.subheadline.weight(.semibold)
     nonisolated static let timer = Font.system(.largeTitle, design: .rounded, weight: .semibold).monospacedDigit()
 
     /// Numbers of a plan or fact («15», «0:30»): rounded, semibold.
