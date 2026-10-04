@@ -80,8 +80,21 @@ private struct PressedStyle: ButtonStyle {
     VStack(spacing: Spacing.medium) {
         CapsuleButton("Продолжить") {}
         CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
+        CapsuleButton("Продолжить", style: .onAccent, fullWidth: true) {}
+            .padding(Spacing.large)
+            .background(Palette.accent, in: .card)
     }
     .padding(Spacing.screenEdge)
     .background(Palette.background)
     .preferredColorScheme(.dark)
+}
+
+#Preview("Крупный шрифт") {
+    VStack(spacing: Spacing.medium) {
+        CapsuleButton("Продолжить") {}
+        CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
+    }
+    .padding(Spacing.screenEdge)
+    .background(Palette.background)
+    .dynamicTypeSize(.accessibility2)
 }

@@ -32,7 +32,7 @@
                     state: .current
                 )
                 RoutineCard(
-                    "Duolingo", status: "Готово", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done
+                    "Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done
                 )
                 RoutineCard(
                     "Дневник", status: "Откроет Journal", symbol: "book.closed.fill", tint: RoutineTint.plum.token,

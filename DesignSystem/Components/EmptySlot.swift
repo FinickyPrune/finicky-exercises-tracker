@@ -51,3 +51,10 @@ public struct EmptySlot: View {
         .background(Palette.background)
         .preferredColorScheme(.dark)
 }
+
+#Preview("Крупный шрифт") {
+    EmptySlot("Что на утро?") {}
+        .padding(Spacing.screenEdge)
+        .background(Palette.background)
+        .dynamicTypeSize(.accessibility2)
+}

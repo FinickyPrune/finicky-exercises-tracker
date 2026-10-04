@@ -79,10 +79,26 @@ public struct DayPartHeader: View {
 }
 
 #Preview("Тёмная") {
+    VStack(alignment: .leading, spacing: Spacing.section) {
+        DayPartHeader(
+            "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning, isCollapsed: .constant(false)
+        )
+        DayPartHeader("День", subtitle: "с 12:00", symbol: "sun.max.fill", tint: .day)
+        DayPartHeader(
+            "Вечер", subtitle: "1 из 1 · с 20:00", symbol: "moon.stars.fill", tint: .evening,
+            isCollapsed: .constant(true)
+        )
+    }
+    .padding(Spacing.screenEdge)
+    .background(Palette.background)
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Крупный шрифт") {
     DayPartHeader(
         "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning, isCollapsed: .constant(false)
     )
     .padding(Spacing.screenEdge)
     .background(Palette.background)
-    .preferredColorScheme(.dark)
+    .dynamicTypeSize(.accessibility2)
 }

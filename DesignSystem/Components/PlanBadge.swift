@@ -29,12 +29,15 @@ public struct PlanBadge: View {
     }
 
     /// VoiceOver reads «3 ×» as a formula, so the label spells it out.
+    /// The app is Russian-only, so the duration is formatted in Russian too, whatever the device language.
     nonisolated static func spokenLabel(sets: Int, amount: Amount) -> String {
         switch amount {
         case let .reps(count):
-            "Подходов: \(sets), повторений: \(count)"
+            return "Подходов: \(sets), повторений: \(count)"
         case let .duration(seconds):
-            "Подходов: \(sets), по \(Duration.seconds(seconds).formatted(.units(allowed: [.minutes, .seconds])))"
+            let style = Duration.UnitsFormatStyle(allowedUnits: [.minutes, .seconds], width: .wide)
+                .locale(Locale(identifier: "ru_RU"))
+            return "Подходов: \(sets), по \(Duration.seconds(max(0, seconds)).formatted(style))"
         }
     }
 }
@@ -43,8 +46,10 @@ public extension PlanBadge.Amount {
     /// The large part: «15» or «0:30».
     nonisolated var value: String {
         switch self {
-        case let .reps(count): "\(count)"
-        case let .duration(seconds): String(format: "%d:%02d", seconds / 60, seconds % 60)
+        case let .reps(count):
+            "\(count)"
+        case let .duration(seconds):
+            String(format: "%d:%02d", max(0, seconds) / 60, max(0, seconds) % 60)
         }
     }
 
@@ -66,4 +71,17 @@ public extension PlanBadge.Amount {
     .foregroundStyle(Palette.textPrimary)
     .padding(Spacing.screenEdge)
     .background(Palette.background)
+}
+
+#Preview("Тёмная, крупный шрифт") {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+        PlanBadge(sets: 3, amount: .reps(15))
+        PlanBadge(sets: 3, amount: .duration(seconds: 30))
+        PlanBadge(sets: 1, amount: .duration(seconds: 90), size: .title2)
+    }
+    .foregroundStyle(Palette.textPrimary)
+    .padding(Spacing.screenEdge)
+    .background(Palette.background)
+    .dynamicTypeSize(.xxxLarge)
+    .preferredColorScheme(.dark)
 }

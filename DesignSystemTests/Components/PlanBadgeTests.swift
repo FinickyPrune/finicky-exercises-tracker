@@ -19,10 +19,15 @@ struct PlanBadgeTests {
         #expect(PlanBadge.spokenLabel(sets: 3, amount: .reps(15)) == "Подходов: 3, повторений: 15")
     }
 
-    @Test func spokenLabelNamesSetsForDuration() {
-        let label = PlanBadge.spokenLabel(sets: 3, amount: .duration(seconds: 30))
-        #expect(label.hasPrefix("Подходов: 3, по "))
-        #expect(label.contains("30"))
-        #expect(!label.contains("×"))
+    @Test(arguments: [
+        (30, "Подходов: 3, по 30 секунд"),
+        (90, "Подходов: 3, по 1 минута 30 секунд"),
+    ])
+    func spokenLabelSpellsOutDuration(seconds: Int, expected: String) {
+        #expect(PlanBadge.spokenLabel(sets: 3, amount: .duration(seconds: seconds)) == expected)
+    }
+
+    @Test func negativeDurationShowsZero() {
+        #expect(PlanBadge.Amount.duration(seconds: -5).value == "0:00")
     }
 }

@@ -11,8 +11,8 @@ struct RoutineCardTests {
         #expect(RoutineCard.accessibilityValue(state: .current, status: "2 из 6") == "Сейчас, 2 из 6")
     }
 
-    @Test func doneReadsAsDone() {
-        #expect(RoutineCard.accessibilityValue(state: .done, status: "Готово") == "Выполнено")
+    @Test func doneKeepsStatus() {
+        #expect(RoutineCard.accessibilityValue(state: .done, status: "в 7:40") == "Выполнено, в 7:40")
     }
 }
 
