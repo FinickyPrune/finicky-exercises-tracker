@@ -35,7 +35,7 @@ Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xc
 
 - **The Xcode project is generated.** Never edit `*.xcodeproj` — change `project.yml` and run `make gen`. New source files are picked up automatically by folder.
 - **Before saying a task is done, run `make check`** and report the result. If it fails, fix it or say what is failing.
-- New logic comes with tests in `ExercisesTrackerTests/`, mirroring the source folder structure.
+- New logic comes with tests in `ExercisesTrackerTests/` (or `DesignSystemTests/` for the `DesignSystem` target), mirroring the source folder structure.
 - For UI changes, launch the app in the simulator and check the screen, not just the build.
 - **UI goes through the design system** (the `DesignSystem` framework target, introduced in 0.2 — see docs/ARCHITECTURE.md). No color, font, spacing or radius literals and no direct haptic calls in `Features/`. A new component goes into the design system with a `#Preview` and into the gallery.
 - **SwiftFormat runs only before a PR**, not during development. Don't run `make format` mid-task. Before `gh pr create`: `make format`, commit, push. A hook blocks `gh pr create` while files are unformatted, and CI checks formatting too.
@@ -50,8 +50,9 @@ ExercisesTracker/
   Core/         Model, Persistence, Scheduling
   Features/     Today, RoutineRun, Editor, Library — views and view models
   Resources/    assets
+  Debug/        design-system gallery, Debug builds only
 ExercisesTrackerTests/
-DesignSystem/   framework target: tokens, components, feedback (from 0.2)
+DesignSystem/   framework target: tokens, components, feedback
 DesignSystemTests/
 ```
 

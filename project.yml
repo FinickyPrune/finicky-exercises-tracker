@@ -15,6 +15,10 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     DEAD_CODE_STRIPPING: YES
     CODE_SIGN_STYLE: Automatic
+    # One version for the app and its embedded framework.
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
 
 targets:
   ExercisesTracker:
@@ -25,9 +29,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.finickyprune.exercisestracker
-        MARKETING_VERSION: "0.1.0"
-        CURRENT_PROJECT_VERSION: "1"
-        TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Exercises
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -36,10 +37,38 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
+    dependencies:
+      - target: DesignSystem
     scheme:
       testTargets:
         - ExercisesTrackerTests
+        - DesignSystemTests
       gatherCoverageData: true
+
+  # Tokens, components and feedback. Features see only its public API (docs/ARCHITECTURE.md → Модули).
+  DesignSystem:
+    type: framework
+    platform: iOS
+    sources:
+      - DesignSystem
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.finickyprune.exercisestracker.designsystem
+        GENERATE_INFOPLIST_FILE: YES
+        ENABLE_PREVIEWS: YES
+        SKIP_INSTALL: YES
+
+  DesignSystemTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - DesignSystemTests
+    dependencies:
+      - target: DesignSystem
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.finickyprune.exercisestracker.designsystem.tests
+        GENERATE_INFOPLIST_FILE: YES
 
   ExercisesTrackerTests:
     type: bundle.unit-test
