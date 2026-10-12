@@ -17,7 +17,7 @@ SWIFTFORMAT_SHA256  := 385ef1a263ba28685157b98c5536b9c9105e124518f28b7ef8a2bee4b
 TOOLS_DIR           := .build/tools
 SWIFTFORMAT         := $(TOOLS_DIR)/swiftformat-$(SWIFTFORMAT_VERSION)
 
-.PHONY: bootstrap gen open build test lint format format-check check clean
+.PHONY: bootstrap gen open build test lint format format-check check sync clean
 
 bootstrap: $(SWIFTFORMAT) ## Install command-line tools
 	brew bundle --file=Brewfile
@@ -53,6 +53,15 @@ format-check: $(SWIFTFORMAT) ## Fail if any file is not formatted
 	$(SWIFTFORMAT) --lint .
 
 check: lint test ## Dev loop: lint + tests (formatting is checked before PR)
+
+# Squash merges are not ancestors of main, so `git branch --merged` misses them:
+# a branch counts as merged once its remote branch is gone.
+sync: ## After a merge on GitHub: update main, delete local branches whose remote is gone
+	git switch main
+	git pull --ff-only --prune
+	@git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads \
+		| awk '$$2 == "[gone]" { print $$1 }' \
+		| while read -r branch; do git branch -D "$$branch"; done
 
 clean:
 	rm -rf .build $(PROJECT)

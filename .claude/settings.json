@@ -60,5 +60,9 @@
   },
   "worktree": {
     "symlinkDirectories": ["docs/design/references"]
+  },
+  "attribution": {
+    "pr": "",
+    "sessionUrl": false
   }
 }
