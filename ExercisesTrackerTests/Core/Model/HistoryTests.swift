@@ -11,11 +11,7 @@ struct HistoryTests {
     private let morning: Date
 
     init() throws {
-        container = try ModelContainer(
-            for: Schema(versionedSchema: SchemaV1.self),
-            migrationPlan: AppMigrationPlan.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-        )
+        container = try AppModelContainer.inMemory()
         context = ModelContext(container)
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "Europe/Belgrade"))

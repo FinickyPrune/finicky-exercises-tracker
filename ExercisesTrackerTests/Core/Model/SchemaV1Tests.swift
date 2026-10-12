@@ -8,11 +8,7 @@ struct SchemaV1Tests {
     private let container: ModelContainer
 
     init() throws {
-        container = try ModelContainer(
-            for: Schema(versionedSchema: SchemaV1.self),
-            migrationPlan: AppMigrationPlan.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-        )
+        container = try AppModelContainer.inMemory()
     }
 
     private func makeContext() -> ModelContext {
