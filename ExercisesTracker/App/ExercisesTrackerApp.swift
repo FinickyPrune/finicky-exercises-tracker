@@ -14,10 +14,13 @@ struct ExercisesTrackerApp: App {
             fatalError("Cannot open the store: \(error)")
         }
         #if DEBUG
-            do {
-                try DemoData.insertIfEmpty(into: container.mainContext)
-            } catch {
-                assertionFailure("Cannot insert demo data: \(error)")
+            // Tests make their own stores; the host app does not need «моё утро».
+            if !AppModelContainer.isTestHost {
+                do {
+                    try DemoData.insertIfEmpty(into: container.mainContext)
+                } catch {
+                    assertionFailure("Cannot insert demo data: \(error)")
+                }
             }
         #endif
     }

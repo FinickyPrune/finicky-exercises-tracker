@@ -4,12 +4,16 @@ import SwiftData
 /// Reads and writes of templates and history. Screens go through it, so the storage can change
 /// without touching them (docs/ARCHITECTURE.md → Хранилище).
 ///
-/// Templates are edited in place: change the objects, then call `save()`. History is written by the run methods,
-/// and they save right away, so a recorded set is not lost if the app is closed.
+/// Templates are edited in place: change the objects, then call `save()`. A container's `mainContext` also
+/// autosaves, so an editor that needs Cancel should work in a context of its own (F4).
+///
+/// History is written by the run methods, and they save right away, so a recorded set is not lost
+/// if the app is closed. When one of them throws, nothing has changed, in memory or on disk.
 protocol RoutineStore {
     // MARK: Templates
 
     /// Parts of the day in display order; their routines in order are `orderedRoutines`.
+    /// Archived routines are included: what is shown on a given day is decided by `Scheduling` (1.4).
     func dayParts() throws -> [DayPart]
 
     /// The exercise library by name, archived exercises included.
@@ -33,6 +37,8 @@ protocol RoutineStore {
 
     /// The run of `routine` started on the same day as `date`, or a new one if there is none yet,
     /// so coming back to a routine continues it instead of starting over.
+    ///
+    /// A screen keeps the run it got: asking again after midnight would start the next day's run.
     func startOrResumeRun(of routine: Routine, at date: Date) throws -> RoutineRun
 
     /// Records what was done for one step (`nil` takes it back) and saves.
@@ -105,17 +111,38 @@ struct SwiftDataRoutineStore: RoutineStore {
         }
         let run = RoutineRun.start(routine, at: date, calendar: calendar)
         context.insert(run)
-        try context.save()
+        do {
+            try context.save()
+        } catch {
+            // Otherwise the next call would find the unsaved run and «resume» it.
+            context.delete(run)
+            throw error
+        }
         return run
     }
 
     func record(_ actual: StepActual?, for result: StepResult, at date: Date) throws {
-        try result.record(actual, at: date)
-        try context.save()
+        try change(result) { try $0.record(actual, at: date) }
     }
 
     func recordAsPlanned(_ result: StepResult, at date: Date) throws {
-        try result.recordAsPlanned(at: date)
-        try context.save()
+        try change(result) { try $0.recordAsPlanned(at: date) }
+    }
+
+    /// Applies `edit` and saves. If saving fails, the result and its run are put back as they were,
+    /// so the screen does not show a set that is not on disk.
+    private func change(_ result: StepResult, _ edit: (StepResult) throws -> Void) throws {
+        let actualData = result.actualData
+        let completedAt = result.completedAt
+        let runCompletedAt = result.run?.completedAt
+        try edit(result)
+        do {
+            try context.save()
+        } catch {
+            result.actualData = actualData
+            result.completedAt = completedAt
+            result.run?.completedAt = runCompletedAt
+            throw error
+        }
     }
 }

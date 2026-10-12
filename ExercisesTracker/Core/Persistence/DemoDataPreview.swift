@@ -5,12 +5,14 @@
     extension PreviewTrait where T == Preview.ViewTraits {
         /// `#Preview(traits: .demoData)`: an in-memory store with «моё утро».
         /// Views read it with `@Query` or through `SwiftDataRoutineStore(context: modelContext)`.
+        ///
+        /// The store is shared by the previews of a canvas session: a run recorded in one is seen by the others.
         static var demoData: Self {
             .modifier(DemoDataPreview())
         }
     }
 
-    private struct DemoDataPreview: PreviewModifier {
+    struct DemoDataPreview: PreviewModifier {
         static func makeSharedContext() throws -> ModelContainer {
             let container = try AppModelContainer.inMemory()
             try DemoData.insert(into: container.mainContext)

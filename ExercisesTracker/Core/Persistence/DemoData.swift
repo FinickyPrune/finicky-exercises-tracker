@@ -8,8 +8,8 @@
     /// Утро с 7:00: Зарядка on workdays (six exercises, the plank is timed), Duolingo, Дневник, Витамины.
     /// День is empty, Вечер has Чтение.
     enum DemoData {
-        /// Fills a store with nothing in it yet: the first launch of a Debug build.
-        /// A store with any template or history is left alone, so deleted demo routines do not come back.
+        /// Fills a store with nothing in it: the first launch of a Debug build. A store with any template
+        /// or history is left alone; one emptied completely gets «моё утро» again on the next launch.
         static func insertIfEmpty(into context: ModelContext) throws {
             let isEmpty = try context.fetchCount(FetchDescriptor<DayPart>()) == 0
                 && context.fetchCount(FetchDescriptor<Routine>()) == 0
@@ -56,10 +56,17 @@
         private struct DemoExercise {
             let name: String
             let notes: String
-            let symbol: String
-            /// Color of the stand-in photo.
-            let tint: RoutineTint
             let plan: ExerciseStep
+            /// Rendered once per launch: previews and tests insert the demo many times.
+            let photo: Data?
+
+            /// `symbol` and `tint` make the stand-in photo.
+            init(name: String, notes: String, symbol: String, tint: RoutineTint, plan: ExerciseStep) {
+                self.name = name
+                self.notes = notes
+                self.plan = plan
+                photo = DemoPhoto.jpeg(symbol: symbol, tint: tint)
+            }
         }
 
         private static let exercises = [
@@ -101,9 +108,7 @@
                 weekdays: .workdays, sortIndex: 0
             )
             workout.steps = try exercises.enumerated().map { index, demo in
-                let exercise = Exercise(
-                    name: demo.name, notes: demo.notes, photo: DemoPhoto.jpeg(symbol: demo.symbol, tint: demo.tint)
-                )
+                let exercise = Exercise(name: demo.name, notes: demo.notes, photo: demo.photo)
                 context.insert(exercise)
                 return try Step(sortIndex: index, config: .exercise(demo.plan), exercise: exercise)
             }

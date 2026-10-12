@@ -75,6 +75,14 @@ struct SwiftDataRoutineStoreTests {
         #expect(try store.exercises().map(\.name) == ["Выпады", "планка", "Приседания", "Ягодичный мост"])
     }
 
+    @Test func exercisesIncludeArchivedOnes() throws {
+        store.insert(Exercise(name: "Отжимания"))
+        store.insert(Exercise(name: "Берпи", isArchived: true))
+        try store.save()
+
+        #expect(try store.exercises().map(\.name) == ["Берпи", "Отжимания"])
+    }
+
     @Test func templateChangesAreWrittenOnSave() throws {
         let dayPart = DayPart(name: "Утро", symbol: "sunrise.fill", startMinute: 420, sortIndex: 0)
         store.insert(dayPart)
@@ -114,6 +122,18 @@ struct SwiftDataRoutineStoreTests {
         #expect(nextDay.id != first.id)
         #expect(nextDay.dayKey == 20_261_003)
         #expect(try savedCount(of: RoutineRun.self) == 2)
+    }
+
+    /// Midnight in the store's calendar, not in UTC (Belgrade is UTC+2 in October).
+    @Test func startOrResumeRunStartsANewRunAfterMidnight() throws {
+        let (workout, _) = try insertMorning()
+
+        let evening = try store.startOrResumeRun(of: workout, at: date(day: 2, hour: 23, minute: 59))
+        let night = try store.startOrResumeRun(of: workout, at: date(day: 3, hour: 0, minute: 1))
+
+        #expect(night.id != evening.id)
+        #expect(evening.dayKey == 20_261_002)
+        #expect(night.dayKey == 20_261_003)
     }
 
     @Test func runsOfADayAreOldestFirstAndOnlyThatDay() throws {

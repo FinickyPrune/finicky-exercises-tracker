@@ -87,6 +87,16 @@ struct DemoDataTests {
         }
     }
 
+    /// What `#Preview(traits: .demoData)` gets.
+    @Test func previewStoreHasTheDemo() throws {
+        let container = try DemoDataPreview.makeSharedContext()
+
+        let dayParts = try SwiftDataRoutineStore(context: container.mainContext).dayParts()
+        #expect(dayParts.map(\.name) == ["Утро", "День", "Вечер"])
+        let inMemory: [Bool] = container.configurations.map(\.isStoredInMemoryOnly)
+        #expect(inMemory == [true])
+    }
+
     @Test func insertIfEmptyFillsAnEmptyStoreOnce() throws {
         try DemoData.insertIfEmpty(into: context)
         try DemoData.insertIfEmpty(into: context)

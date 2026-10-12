@@ -18,6 +18,7 @@ struct AppModelContainerTests {
     @Test func appStoreIsInMemoryUnderTests() throws {
         let container = try AppModelContainer.forApp()
 
-        #expect(container.configurations.allSatisfy { $0.isStoredInMemoryOnly })
+        let inMemory: [Bool] = container.configurations.map(\.isStoredInMemoryOnly)
+        #expect(inMemory == [true])
     }
 }

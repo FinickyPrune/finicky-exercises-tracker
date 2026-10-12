@@ -9,12 +9,19 @@ enum AppModelContainer {
     /// store, and a store left from an older v1 (it still changes before the first release) cannot crash them.
     static func forApp() throws -> ModelContainer {
         #if DEBUG
-            if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+            if isTestHost {
                 return try inMemory()
             }
         #endif
         return try make(ModelConfiguration())
     }
+
+    #if DEBUG
+        /// The app is running as the host of a unit-test run.
+        static var isTestHost: Bool {
+            ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        }
+    #endif
 
     /// An empty store in memory, for tests and previews. Each call makes a separate store.
     static func inMemory() throws -> ModelContainer {
