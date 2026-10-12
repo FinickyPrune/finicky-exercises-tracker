@@ -28,6 +28,7 @@ Always go through the Makefile — CI runs the same targets.
 | `make lint` | SwiftLint, strict |
 | `make check` | lint + test — the dev loop |
 | `make format` | SwiftFormat in place — only before a PR. Pinned version (Makefile), downloaded to `.build/tools/` on first use |
+| `make sync` | After a PR is merged on GitHub: switch to `main`, pull, delete local branches whose remote is gone |
 
 Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xcresulttool get test-results summary --path <file>`.
 
@@ -41,6 +42,7 @@ Test results: `.build/DerivedData/Logs/Test/*.xcresult`, readable with `xcrun xc
 - **SwiftFormat runs only before a PR**, not during development. Don't run `make format` mid-task. Before `gh pr create`: `make format`, commit, push. A hook blocks `gh pr create` while files are unformatted, and CI checks formatting too.
 - Work on a branch, never commit to `main` directly. Branch names: `feature/…`, `fix/…`, `chore/…`. `main` is protected on GitHub (PR with a green `check` job, squash merge only), and a hook blocks `git commit`/`git push` while on `main`.
 - Commit messages: imperative mood, short subject line (`Add workout list screen`).
+- PR descriptions are short: `Closes #<N>`, a few one-line bullets on what changed, the acceptance-criteria checklist. No "Проверка" section when `make check` and the review are clean — only mention checks when something failed, was skipped or is worth flagging. No attribution footer.
 
 ## Architecture
 
@@ -70,3 +72,4 @@ Work is tracked as GitHub issues: one epic per feature (`F3 · …`) with sub-is
 4. Run the `ios-reviewer` subagent on the branch; fix blockers. Use `test-writer` if coverage is missing.
 5. `make format`, commit the formatting as its own commit, push.
 6. Open a PR with `gh pr create`, `Closes #<N>` in the body; CI must be green before merge.
+7. Merge with `gh pr merge --squash --delete-branch`: it deletes the branch on GitHub and locally and leaves you on an up-to-date `main`. GitHub also deletes merged branches on its side; after a merge in the web UI, run `make sync`.
