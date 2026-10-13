@@ -32,8 +32,8 @@ struct PlanBadgeTests {
     @Test(arguments: [
         (english, 30, "Sets: 3, 30 seconds each"),
         (english, 90, "Sets: 3, 1 minute, 30 seconds each"),
-        (russian, 30, "Подходов: 3, по 30 секунд"),
-        (russian, 90, "Подходов: 3, по 1 минута 30 секунд"),
+        (russian, 30, "Подходов: 3, каждый — 30 секунд"),
+        (russian, 90, "Подходов: 3, каждый — 1 минута 30 секунд"),
     ])
     func spokenLabelSpellsOutDuration(locale: Locale, seconds: Int, expected: String) {
         #expect(PlanBadge.spokenLabel(sets: 3, amount: .duration(seconds: seconds), locale: locale) == expected)

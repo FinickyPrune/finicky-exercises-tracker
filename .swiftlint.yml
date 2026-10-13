@@ -53,11 +53,23 @@ custom_rules:
     severity: error
   text_literal:
     name: "Text in a String Catalog"
-    # A string literal with a letter outside interpolations, as the first argument of a call that shows text.
-    regex: '(\b(Text|Label|Button|Tab|Section|Toggle|Picker|TextField|SecureField|LabeledContent|Menu|ContentUnavailableView|CapsuleButton|EmptySlot|navigationTitle|accessibilityLabel|accessibilityHint|accessibilityValue|alert|confirmationDialog|help)\(\s*|\bString\(localized:\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
+    # A string literal with a letter outside interpolations as the first argument of a call that shows text.
+    # A design-system component that takes text first belongs in this list too.
+    regex: '(\b(Text|Label|Button|Tab|Section|Toggle|Picker|TextField|SecureField|LabeledContent|Menu|Link|NavigationLink|ProgressView|Stepper|DatePicker|ContentUnavailableView|CapsuleButton|EmptySlot|navigationTitle|accessibilityLabel|accessibilityHint|accessibilityValue|badge|help|alert|confirmationDialog|Announcement|NSLocalizedString|LocalizedStringKey|LocalizedStringResource)\(\s*|\bString\(localized:\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
     excluded_match_kinds:
       - comment
       - doccomment
     excluded: '.*Tests/.*'
     message: "Put the text in Localizable.xcstrings (en and ru) and use its generated symbol, e.g. Text(.todayTitle). Data is shown as it is: Text(routine.name)."
+    severity: error
+  labeled_text_literal:
+    name: "Text in a String Catalog"
+    # LocalizedStringResource accepts a string literal silently, so a labeled text argument or an assignment
+    # to the type would bypass the catalog: status: "Done", prompt: "Search", let r: LocalizedStringResource = "…".
+    regex: '(\b(status|subtitle|prompt|message|hint|placeholder)\s*:\s*|:\s*LocalizedStringResource\??\s*=\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
+    excluded_match_kinds:
+      - comment
+      - doccomment
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and pass its generated symbol, e.g. status: .galleryCheckOff."
     severity: error

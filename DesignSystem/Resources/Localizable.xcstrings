@@ -68,7 +68,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавить рутину"
+            "value" : "Добавляет рутину"
           }
         }
       }
@@ -104,7 +104,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подходов: %1$lld, по %2$@"
+            "value" : "Подходов: %1$lld, каждый — %2$@"
           }
         }
       }

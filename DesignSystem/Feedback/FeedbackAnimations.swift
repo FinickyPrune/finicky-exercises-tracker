@@ -101,6 +101,8 @@ private struct Pulse<Trigger: Equatable & Sendable>: ViewModifier {
 public struct CelebrationOverlay: View {
     @Binding private var isPresented: Bool
 
+    @Environment(\.locale) private var locale
+
     public init(isPresented: Binding<Bool>) {
         _isPresented = isPresented
     }
@@ -117,7 +119,8 @@ public struct CelebrationOverlay: View {
         .allowsHitTesting(false)
         .task(id: isPresented) {
             guard isPresented else { return }
-            AccessibilityNotification.Announcement(String(localized: .dayPartCompletedAnnouncement)).post()
+            let announcement = LocalizedStringResource.dayPartCompletedAnnouncement.string(in: locale)
+            AccessibilityNotification.Announcement(announcement).post()
             do {
                 try await Task.sleep(for: .seconds(Motion.celebrationDuration))
             } catch {

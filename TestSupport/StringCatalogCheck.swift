@@ -1,11 +1,15 @@
 import Foundation
 
 /// What a String Catalog must hold: every key added by hand, explained for translators,
-/// and translated into every app language with the same placeholders.
+/// and translated into every app language with the same placeholders and all plural forms.
 ///
 /// Compiled into both test targets (`project.yml`), each checking its own catalog.
 nonisolated enum StringCatalogCheck {
+    /// The app's languages. A new language is added here, to `pluralCategories` and to both catalogs.
     static let languages = ["en", "ru"]
+
+    /// Plural forms each language needs (CLDR): Russian has «1 минута», «2 минуты», «5 минут» and fractions.
+    static let pluralCategories = ["en": ["one", "other"], "ru": ["few", "many", "one", "other"]]
 
     /// The catalog of a target, found from a test file's `#filePath` two folders below the repository root.
     static func catalog(_ relativePath: String, from testFile: String) -> URL {
@@ -18,7 +22,12 @@ nonisolated enum StringCatalogCheck {
 
     /// One line per problem; empty when the catalog is complete.
     static func problems(inCatalogAt url: URL) throws -> [String] {
-        let catalog = try JSONDecoder().decode(Catalog.self, from: Data(contentsOf: url))
+        try problems(inCatalog: Data(contentsOf: url))
+    }
+
+    /// One line per problem in the catalog's JSON; empty when it is complete.
+    static func problems(inCatalog data: Data) throws -> [String] {
+        let catalog = try JSONDecoder().decode(Catalog.self, from: data)
         var problems: [String] = []
         if catalog.sourceLanguage != "en" {
             problems.append("source language is \(catalog.sourceLanguage), not en")
@@ -29,6 +38,24 @@ nonisolated enum StringCatalogCheck {
         return problems
     }
 
+    /// The type of each argument by its position, so a translation may reorder them:
+    /// «%1$@ of %2$lld» and «%2$lld из %1$@» are both [1: @, 2: lld]. Width and precision are not compared.
+    static func placeholders(in value: String) -> [Int: String] {
+        var types: [Int: String] = [:]
+        var next = 1
+        let specifier = #/
+            % (?: (?<position> \d+ ) \$ )?                         # position: %2$
+            [\-+\x20\#0']* \d* (?: \. \d+ )?                       # flags, width, precision
+            (?<type> (?: hh|h|ll|l|q|z|t|j|L )? [@dDiuUxXoOfFeEgGaAcCsSp%] )
+            /#
+        for match in value.matches(of: specifier) where match.output.type != "%" {
+            let position = match.output.position.flatMap { Int($0) } ?? next
+            types[position] = String(match.output.type)
+            next = position + 1
+        }
+        return types
+    }
+
     private static func problems(of entry: Entry, key: String) -> [String] {
         var problems: [String] = []
         if entry.extractionState != "manual" {
@@ -37,19 +64,13 @@ nonisolated enum StringCatalogCheck {
         if entry.comment?.isEmpty ?? true {
             problems.append("\(key): no comment for translators")
         }
-        var placeholders: [String: [String]] = [:]
+        var placeholders: [String: [Int: String]] = [:]
         for language in languages {
             guard let localization = entry.localizations?[language] else {
                 problems.append("\(key): no \(language)")
                 continue
             }
-            let units = localization.units
-            if units.isEmpty {
-                problems.append("\(key): \(language) is empty")
-            }
-            for (variation, unit) in units where unit.state != "translated" || unit.value.isEmpty {
-                problems.append("\(key): \(language)\(variation) is not translated")
-            }
+            problems += Self.problems(of: localization, key: key, language: language)
             placeholders[language] = localization.mainUnit.map { Self.placeholders(in: $0.value) }
         }
         if Set(placeholders.values).count > 1 {
@@ -58,11 +79,27 @@ nonisolated enum StringCatalogCheck {
         return problems
     }
 
-    /// Format specifiers in order, positions stripped: «%1$lld of %2$@» → [lld, @].
-    private static func placeholders(in value: String) -> [String] {
-        value.matches(of: #/%(?:\d+\$)?(?<type>lld|ld|d|@|f|%)/#)
-            .map { String($0.output.type) }
-            .filter { $0 != "%" }
+    private static func problems(of localization: Localization, key: String, language: String) -> [String] {
+        var problems: [String] = []
+        let units = localization.units
+        if units.isEmpty {
+            problems.append("\(key): \(language) is empty")
+        }
+        for (variation, unit) in units {
+            if unit.state != "translated" || unit.value.isEmpty {
+                problems.append("\(key): \(language)\(variation) is not translated")
+            }
+            if unit.value.contains("%#@") {
+                problems.append("\(key): \(language)\(variation) uses a %#@…@ substitution; this check cannot read it")
+            }
+        }
+        if let plural = localization.variations?.plural {
+            let missing = Set(pluralCategories[language] ?? []).subtracting(plural.keys)
+            if !missing.isEmpty {
+                problems.append("\(key): \(language) plural lacks \(missing.sorted().joined(separator: ", "))")
+            }
+        }
+        return problems
     }
 
     // MARK: - Format
