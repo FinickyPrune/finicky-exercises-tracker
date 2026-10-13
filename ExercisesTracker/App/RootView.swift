@@ -1,34 +1,24 @@
+import DesignSystem
 import SwiftUI
 
+/// The tab bar. Each tab is a feature's root screen in its own navigation stack.
 struct RootView: View {
-    var body: some View {
-        NavigationStack {
-            #if DEBUG
-                if UserDefaults.standard.bool(forKey: "showGallery") {
-                    // Launch argument `-showGallery YES` opens the gallery directly, for screenshots.
-                    DesignSystemGallery()
-                } else {
-                    placeholder
-                        .toolbar {
-                            NavigationLink {
-                                DesignSystemGallery()
-                            } label: {
-                                Label("Design System", systemImage: "paintpalette")
-                            }
-                        }
-                }
-            #else
-                placeholder
-            #endif
-        }
-    }
+    @State private var navigation = AppNavigation()
 
-    private var placeholder: some View {
-        ContentUnavailableView(
-            "Exercises Tracker",
-            systemImage: "figure.strengthtraining.traditional",
-            description: Text("Nothing here yet.")
-        )
+    var body: some View {
+        TabView(selection: $navigation.selectedTab) {
+            Tab("Сегодня", systemImage: "sun.max", value: AppTab.today) {
+                NavigationStack(path: $navigation.todayPath) {
+                    TodayView()
+                    #if DEBUG
+                        .modifier(DebugTools())
+                    #endif
+                }
+            }
+        }
+        // System controls (the tab bar, toolbar buttons) take the app's accent, not the asset's default blue.
+        .tint(Palette.accent)
+        .environment(navigation)
     }
 }
 

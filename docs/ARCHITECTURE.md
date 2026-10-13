@@ -236,6 +236,15 @@ struct CheckStep: StepKind {
 - **Настройки шага читаются через `Step.config`, пишутся через `Step.setConfig(_:)`** — так `kindRaw` не расходится с `configData`. Value-типы шагов и `Weekdays` — `nonisolated`, их можно кодировать вне главного потока.
 - **Простая или составная рутина:** если в рутине ровно один шаг-ссылка или отметка, она выполняется прямо в списке «Сегодня». Иначе открывается отдельный экран.
 
+## Навигация
+
+- **Таб-бар с первого дня.** `RootView` — это `TabView` со вкладками из `AppTab` (`App/AppNavigation.swift`). Пока вкладка одна, «Сегодня». Новая вкладка — это `case` в `AppTab`, `Tab` в `RootView` и путь в `AppNavigation`.
+- **Свой стек у каждой вкладки.** Корень вкладки — экран фичи внутри `NavigationStack`. Путь стека хранится в `AppNavigation` (`@Observable`): `RootView` владеет им через `@State` и кладёт в окружение, так что любой экран может открыть другой программно.
+- **Переходы по значению.** Экран открывается значением маршрута: `NavigationLink(value:)` или добавлением в путь. Куда ведёт значение, описывает `navigationDestination(for:)` на корне вкладки. Маршруты фичи — её `enum` с `UUID` моделей, а не сами модели: такой маршрут можно собрать из диплинка виджета (F7) или Live Activity (F9).
+- **Шторки — состояние экрана.** Таймер (3.3), фото (3.5) и формы показывает через `.sheet(item:)` тот экран, который их открыл; в `AppNavigation` они не попадают.
+- **Отладочные экраны** — `DebugRoute` и модификатор `DebugTools` на корне вкладки (`Debug/DebugTools.swift`), только в Debug.
+- **Акцент.** `RootView` задаёт `.tint(Palette.accent)`, поэтому системные элементы (таб-бар, кнопки тулбара) берут акцент дизайн-системы. Ассет `AccentColor` пустой: второго источника цвета нет.
+
 ## Модули
 
 Решено в 0.1, введено в 0.2. Всё приложение — один app-таргет, кроме дизайн-системы.
@@ -248,7 +257,7 @@ struct CheckStep: StepKind {
 
 ```
 ExercisesTracker/
-  App/                точка входа, корневая навигация
+  App/                точка входа, таб-бар, AppNavigation
   Core/
     Model/            SwiftData-модели, StepConfig, StepKind
     Persistence/      ModelContainer, версии схемы, RoutineStore, демо-данные
@@ -259,7 +268,7 @@ ExercisesTracker/
     RoutineRun/
     Editor/
     Library/
-  Debug/
+  Debug/              отладочные маршруты (DebugTools), только Debug
     Gallery/          галерея дизайн-системы, только Debug
 DesignSystem/         framework-таргет: токены, компоненты, хаптики и анимации — см. DESIGN.md
   Tokens/
