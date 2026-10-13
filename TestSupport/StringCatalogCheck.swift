@@ -44,10 +44,10 @@ nonisolated enum StringCatalogCheck {
         var types: [Int: String] = [:]
         var next = 1
         let specifier = #/
-            % (?: (?<position> \d+ ) \$ )?                         # position: %2$
-            [\-+\x20\#0']* \d* (?: \. \d+ )?                       # flags, width, precision
-            (?<type> (?: hh|h|ll|l|q|z|t|j|L )? [@dDiuUxXoOfFeEgGaAcCsSp%] )
-            /#
+        % (?: (?<position> \d+ ) \$ )?                         # position: %2$
+        [\-+\x20\#0']* \d* (?: \. \d+ )?                       # flags, width, precision
+        (?<type> (?: hh|h|ll|l|q|z|t|j|L )? [@dDiuUxXoOfFeEgGaAcCsSp%] )
+        /#
         for match in value.matches(of: specifier) where match.output.type != "%" {
             let position = match.output.position.flatMap { Int($0) } ?? next
             types[position] = String(match.output.type)

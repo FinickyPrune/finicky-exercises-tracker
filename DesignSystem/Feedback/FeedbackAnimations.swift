@@ -191,10 +191,10 @@ private struct CelebrationContent: View {
         String(localized: .previewWorkout), status: .previewProgress(6, 6), symbol: "figure.cooldown",
         tint: Palette.accent, state: .current
     )
-        .completionFlash(trigger: flashes)
-        .clipShape(.card)
-        .onTapGesture { flashes += 1 }
-        .padding(Spacing.screenEdge)
-        .background(Palette.background)
-        .preferredColorScheme(.dark)
+    .completionFlash(trigger: flashes)
+    .clipShape(.card)
+    .onTapGesture { flashes += 1 }
+    .padding(Spacing.screenEdge)
+    .background(Palette.background)
+    .preferredColorScheme(.dark)
 }
