@@ -1,5 +1,5 @@
-@testable import ExercisesTracker
 import DesignSystem
+@testable import ExercisesTracker
 import SwiftUI
 import Testing
 import UIKit
