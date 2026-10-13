@@ -62,6 +62,16 @@ DesignSystemTests/
 - Keep views thin: logic that can be unit-tested lives in models, not in `body`.
 - Persistence: SwiftData, behind the `RoutineStore` protocol. Template and history are separate graphs — see docs/ARCHITECTURE.md.
 
+## SwiftUI Pro skill
+
+`.claude/skills/swiftui-pro/` is Paul Hudson's SwiftUI review skill, vendored at a pinned commit (see its `UPSTREAM.md`; its files stay unchanged). `/swiftui-pro [focus]` runs it, and `ios-reviewer` checks UI changes against it. Where it disagrees with this project, the project wins:
+
+- Colors, fonts, spacing and radii come from `DesignSystem` tokens, haptics from its feedback catalog — not system styles or literals. Its typography already follows Dynamic Type.
+- Small related types may share a file: a type with its enum, private helpers, an `extension`. Small private `some View` helpers in a view are fine too.
+- The deployment target is iOS 26: iOS 27+ APIs only behind `#available`.
+- iPhone only, portrait: iPad, window resizing and iPhone Duo layouts are out of scope for now.
+- UI text is Russian only for now: no String Catalog, `LocalizedStringResource` or translations unless asked.
+
 ## Workflow with agents
 
 Work is tracked as GitHub issues: one epic per feature (`F3 · …`) with sub-issues per subtask (`[3.2] …`), grouped into milestones. Each subtask issue lists its dependencies and acceptance criteria.
@@ -69,7 +79,7 @@ Work is tracked as GitHub issues: one epic per feature (`F3 · …`) with sub-is
 1. Read the issue: `gh issue view <N>`. Its dependencies must already be merged.
 2. Branch `feature/<code>-<slug>`, e.g. `feature/3.2-quick-confirm`.
 3. Implement; `make check` passes; every acceptance criterion is met or explicitly called out.
-4. Run the `ios-reviewer` subagent on the branch; fix blockers. Use `test-writer` if coverage is missing.
+4. Run the `ios-reviewer` subagent on the branch; fix blockers. For UI changes it also applies the `swiftui-pro` skill. Use `test-writer` if coverage is missing.
 5. `make format`, commit the formatting as its own commit, push.
 6. Open a PR with `gh pr create`, `Closes #<N>` in the body; CI must be green before merge.
 7. Merge with `gh pr merge --squash --delete-branch`: it deletes the branch on GitHub and locally and leaves you on an up-to-date `main`. GitHub also deletes merged branches on its side; after a merge in the web UI, run `make sync`.
