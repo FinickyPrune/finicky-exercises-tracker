@@ -4,7 +4,7 @@
 
     /// Debug-only catalog of every design-system token. Review of design changes goes by its screenshots.
     ///
-    /// Launch arguments for screenshots: `-showGallery YES` opens it (see `RootView`),
+    /// Launch arguments for screenshots: `-showGallery YES` opens it (see `AppNavigation`),
     /// `-gallerySection <id>` scrolls to a section: headers, cards, controls, feedback, colors, contrast, dayParts,
     /// routines, typography, spacing, shapes.
     struct DesignSystemGallery: View {
