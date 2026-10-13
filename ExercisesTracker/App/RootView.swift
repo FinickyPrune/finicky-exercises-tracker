@@ -6,7 +6,7 @@ struct RootView: View {
 
     var body: some View {
         TabView(selection: $navigation.selectedTab) {
-            Tab("Сегодня", systemImage: "sun.max", value: AppTab.today) {
+            Tab(.tabToday, systemImage: "sun.max", value: AppTab.today) {
                 NavigationStack(path: $navigation.todayPath) {
                     TodayView()
                         .navigationDestination(for: TodayRoute.self) { $0.destination }

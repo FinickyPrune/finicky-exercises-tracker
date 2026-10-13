@@ -3,6 +3,7 @@ included:
   - ExercisesTrackerTests
   - DesignSystem
   - DesignSystemTests
+  - TestSupport
 
 # Layout is owned by SwiftFormat, which runs only before a PR.
 # These rules would otherwise fail `make lint` on whitespace mid-work.
@@ -38,3 +39,37 @@ line_length:
 
 identifier_name:
   excluded: [id, x, y]
+
+# User-facing text lives in String Catalogs under symbolic keys: Text(.todayTitle), not Text("Today").
+# See CLAUDE.md → Localization.
+custom_rules:
+  cyrillic_in_string:
+    name: "Text in a String Catalog"
+    regex: '[А-Яа-яЁё]+'
+    match_kinds:
+      - string
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and use its generated symbol, e.g. Text(.todayTitle)."
+    severity: error
+  text_literal:
+    name: "Text in a String Catalog"
+    # A string literal with a letter outside interpolations as the first argument of a call that shows text.
+    # A design-system component that takes text first belongs in this list too.
+    regex: '(\b(Text|Label|Button|Tab|Section|Toggle|Picker|TextField|SecureField|LabeledContent|Menu|Link|NavigationLink|ProgressView|Stepper|DatePicker|ContentUnavailableView|CapsuleButton|EmptySlot|navigationTitle|accessibilityLabel|accessibilityHint|accessibilityValue|badge|help|alert|confirmationDialog|Announcement|NSLocalizedString|LocalizedStringKey|LocalizedStringResource)\(\s*|\bString\(localized:\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
+    excluded_match_kinds:
+      - comment
+      - doccomment
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and use its generated symbol, e.g. Text(.todayTitle). Data is shown as it is: Text(routine.name)."
+    severity: error
+  labeled_text_literal:
+    name: "Text in a String Catalog"
+    # LocalizedStringResource accepts a string literal silently, so a labeled text argument or an assignment
+    # to the type would bypass the catalog: status: "Done", prompt: "Search", let r: LocalizedStringResource = "…".
+    regex: '(\b(status|subtitle|prompt|message|hint|placeholder)\s*:\s*|:\s*LocalizedStringResource\??\s*=\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
+    excluded_match_kinds:
+      - comment
+      - doccomment
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and pass its generated symbol, e.g. status: .galleryCheckOff."
+    severity: error

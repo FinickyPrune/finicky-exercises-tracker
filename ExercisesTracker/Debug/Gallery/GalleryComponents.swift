@@ -8,16 +8,19 @@
         var body: some View {
             VStack(alignment: .leading, spacing: Spacing.xLarge) {
                 DayPartHeader(
-                    "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning,
-                    isCollapsed: $morningCollapsed
+                    String(localized: .demoMorning), subtitle: .galleryProgressFrom(1, 4, "7:00"),
+                    symbol: "sunrise.fill", tint: .morning, isCollapsed: $morningCollapsed
                 )
                 VStack(alignment: .leading, spacing: Spacing.small) {
-                    DayPartHeader("День", subtitle: "с 12:00", symbol: "sun.max.fill", tint: .day)
-                    EmptySlot("Что сегодня днём?") {}
+                    DayPartHeader(
+                        String(localized: .demoDay), subtitle: .galleryFrom("12:00"), symbol: "sun.max.fill",
+                        tint: .day
+                    )
+                    EmptySlot(.galleryDayPrompt) {}
                 }
                 DayPartHeader(
-                    "Вечер", subtitle: "0 из 1 · с 20:00", symbol: "moon.stars.fill", tint: .evening,
-                    isCollapsed: .constant(true)
+                    String(localized: .demoEvening), subtitle: .galleryProgressFrom(0, 1, "20:00"),
+                    symbol: "moon.stars.fill", tint: .evening, isCollapsed: .constant(true)
                 )
             }
             .padding(.vertical, Spacing.xSmall)
@@ -28,19 +31,20 @@
         var body: some View {
             RoutineGrid {
                 RoutineCard(
-                    "Зарядка", status: "2 из 6", symbol: "figure.cooldown", tint: RoutineTint.orange.token,
-                    state: .current
+                    String(localized: .demoWorkout), status: .galleryProgress(2, 6), symbol: "figure.cooldown",
+                    tint: RoutineTint.orange.token, state: .current
                 )
                 RoutineCard(
-                    "Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done
+                    String(localized: .demoDuolingo), status: .galleryAt("7:40"), symbol: "bird.fill",
+                    tint: RoutineTint.sage.token, state: .done
                 )
                 RoutineCard(
-                    "Дневник", status: "Откроет Journal", symbol: "book.closed.fill", tint: RoutineTint.plum.token,
-                    state: .pending
+                    String(localized: .demoJournal), status: .galleryOpensJournal, symbol: "book.closed.fill",
+                    tint: RoutineTint.plum.token, state: .pending
                 )
                 RoutineCard(
-                    "Витамины", status: "Отметить", symbol: "pills.fill", tint: RoutineTint.amber.token,
-                    state: .pending
+                    String(localized: .demoVitamins), status: .galleryCheckOff, symbol: "pills.fill",
+                    tint: RoutineTint.amber.token, state: .pending
                 )
             }
             .padding(.vertical, Spacing.xSmall)
@@ -57,13 +61,13 @@
                 }
                 .foregroundStyle(Palette.textPrimary)
                 HStack(spacing: Spacing.small) {
-                    CapsuleButton("Продолжить") {}
-                    CapsuleButton("Готово", style: .dark) {}
+                    CapsuleButton(.galleryContinue) {}
+                    CapsuleButton(.galleryDone, style: .dark) {}
                 }
-                CapsuleButton("Продолжить", style: .onAccent, fullWidth: true) {}
+                CapsuleButton(.galleryContinue, style: .onAccent, fullWidth: true) {}
                     .padding(Spacing.large)
                     .background(Palette.accent, in: .card)
-                CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
+                CapsuleButton(.galleryFinishWorkout, style: .dark, fullWidth: true) {}
             }
             .padding(.vertical, Spacing.xSmall)
         }

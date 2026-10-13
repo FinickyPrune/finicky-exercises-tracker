@@ -3,7 +3,7 @@ import SwiftUI
 /// Header of a part of the day: icon in the part's color, bold title, caps subtitle and an optional collapse chevron.
 public struct DayPartHeader: View {
     private let title: String
-    private let subtitle: String
+    private let subtitle: LocalizedStringResource
     private let symbol: String
     private let tint: DayPartTint
     private let isCollapsed: Binding<Bool>?
@@ -11,11 +11,12 @@ public struct DayPartHeader: View {
     @ScaledMetric(relativeTo: .title3) private var chevronSize = Size.button
 
     /// - Parameters:
-    ///   - subtitle: progress and start time, e.g. «1 из 4 · с 7:00». Shown in caps.
+    ///   - title: the part of the day's name, shown as it is.
+    ///   - subtitle: progress and start time, e.g. «1 of 4 · from 7:00». Shown in caps.
     ///   - isCollapsed: pass a binding to show the collapse chevron; `nil` hides it.
     public init(
         _ title: String,
-        subtitle: String,
+        subtitle: LocalizedStringResource,
         symbol: String,
         tint: DayPartTint,
         isCollapsed: Binding<Bool>? = nil
@@ -56,37 +57,43 @@ public struct DayPartHeader: View {
                         .contentShape(.rect)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(isCollapsed.wrappedValue ? "Развернуть \(title)" : "Свернуть \(title)")
+                .accessibilityLabel(Text(isCollapsed.wrappedValue ? .dayPartExpand(title) : .dayPartCollapse(title)))
             }
         }
     }
 }
 
-#Preview("Состояния") {
+#Preview("States") {
     @Previewable @State var collapsed = false
     VStack(alignment: .leading, spacing: Spacing.section) {
         DayPartHeader(
-            "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning, isCollapsed: $collapsed
+            String(localized: .previewMorning), subtitle: .previewProgressFrom(1, 4, "7:00"), symbol: "sunrise.fill",
+            tint: .morning, isCollapsed: $collapsed
         )
-        DayPartHeader("День", subtitle: "с 12:00", symbol: "sun.max.fill", tint: .day)
         DayPartHeader(
-            "Вечер", subtitle: "1 из 1 · с 20:00", symbol: "moon.stars.fill", tint: .evening,
-            isCollapsed: .constant(true)
+            String(localized: .previewDay), subtitle: .previewFrom("12:00"), symbol: "sun.max.fill", tint: .day
+        )
+        DayPartHeader(
+            String(localized: .previewEvening), subtitle: .previewProgressFrom(1, 1, "20:00"),
+            symbol: "moon.stars.fill", tint: .evening, isCollapsed: .constant(true)
         )
     }
     .padding(Spacing.screenEdge)
     .background(Palette.background)
 }
 
-#Preview("Тёмная") {
+#Preview("Dark") {
     VStack(alignment: .leading, spacing: Spacing.section) {
         DayPartHeader(
-            "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning, isCollapsed: .constant(false)
+            String(localized: .previewMorning), subtitle: .previewProgressFrom(1, 4, "7:00"), symbol: "sunrise.fill",
+            tint: .morning, isCollapsed: .constant(false)
         )
-        DayPartHeader("День", subtitle: "с 12:00", symbol: "sun.max.fill", tint: .day)
         DayPartHeader(
-            "Вечер", subtitle: "1 из 1 · с 20:00", symbol: "moon.stars.fill", tint: .evening,
-            isCollapsed: .constant(true)
+            String(localized: .previewDay), subtitle: .previewFrom("12:00"), symbol: "sun.max.fill", tint: .day
+        )
+        DayPartHeader(
+            String(localized: .previewEvening), subtitle: .previewProgressFrom(1, 1, "20:00"),
+            symbol: "moon.stars.fill", tint: .evening, isCollapsed: .constant(true)
         )
     }
     .padding(Spacing.screenEdge)
@@ -94,9 +101,10 @@ public struct DayPartHeader: View {
     .preferredColorScheme(.dark)
 }
 
-#Preview("Крупный шрифт") {
+#Preview("Large text") {
     DayPartHeader(
-        "Утро", subtitle: "1 из 4 · с 7:00", symbol: "sunrise.fill", tint: .morning, isCollapsed: .constant(false)
+        String(localized: .previewMorning), subtitle: .previewProgressFrom(1, 4, "7:00"), symbol: "sunrise.fill",
+        tint: .morning, isCollapsed: .constant(false)
     )
     .padding(Spacing.screenEdge)
     .background(Palette.background)

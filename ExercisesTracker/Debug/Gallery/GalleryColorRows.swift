@@ -59,13 +59,13 @@
 
     /// A foreground on a background with the minimum it has to meet.
     struct ContrastPair: Identifiable {
-        let title: String
+        let title: LocalizedStringResource
         let foreground: ColorToken
         let background: ColorToken
         let minimum: Double
 
         var id: String {
-            title
+            title.key
         }
 
         /// Light, dark, then the same two with Increase Contrast.
@@ -82,35 +82,36 @@
 
         static let all = [
             ContrastPair(
-                title: "Текст на фоне", foreground: Palette.textPrimary, background: Palette.background,
+                title: .galleryContrastTextOnBackground, foreground: Palette.textPrimary,
+                background: Palette.background,
                 minimum: Contrast.text
             ),
             ContrastPair(
-                title: "Текст на карточке", foreground: Palette.textPrimary, background: Palette.surface,
+                title: .galleryContrastTextOnCard, foreground: Palette.textPrimary, background: Palette.surface,
                 minimum: Contrast.text
             ),
             ContrastPair(
-                title: "Подпись на карточке", foreground: Palette.textSecondary, background: Palette.surface,
+                title: .galleryContrastCaptionOnCard, foreground: Palette.textSecondary, background: Palette.surface,
                 minimum: Contrast.text
             ),
             ContrastPair(
-                title: "Текст на акценте", foreground: Palette.onAccent, background: Palette.accent,
+                title: .galleryContrastTextOnAccent, foreground: Palette.onAccent, background: Palette.accent,
                 minimum: Contrast.large
             ),
             ContrastPair(
-                title: "Галочка «по плану»", foreground: Palette.textSecondary, background: Palette.surfaceRaised,
+                title: .galleryContrastCheckmark, foreground: Palette.textSecondary, background: Palette.surfaceRaised,
                 minimum: Contrast.large
             ),
             ContrastPair(
-                title: "Акцент на фоне", foreground: Palette.accent, background: Palette.background,
+                title: .galleryContrastAccentOnBackground, foreground: Palette.accent, background: Palette.background,
                 minimum: Contrast.large
             ),
             ContrastPair(
-                title: "Акцент на карточке", foreground: Palette.accent, background: Palette.surface,
+                title: .galleryContrastAccentOnCard, foreground: Palette.accent, background: Palette.surface,
                 minimum: Contrast.large
             ),
             ContrastPair(
-                title: "Акцент на белой карточке", foreground: Palette.accent, background: Palette.surfaceRaised,
+                title: .galleryContrastAccentOnWhiteCard, foreground: Palette.accent, background: Palette.surfaceRaised,
                 minimum: Contrast.large
             ),
         ]
@@ -130,7 +131,7 @@
                 Spacer()
                 Image(systemName: passes ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(passes ? Palette.textSecondary : Palette.accent)
-                    .accessibilityLabel(passes ? "Проходит" : "Ниже минимума")
+                    .accessibilityLabel(Text(passes ? .galleryContrastPasses : .galleryContrastBelowMinimum))
             }
         }
 

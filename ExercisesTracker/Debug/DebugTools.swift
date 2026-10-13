@@ -23,7 +23,7 @@
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         NavigationLink(value: TodayRoute.debug(.designSystemGallery)) {
-                            Label("Design System", systemImage: "paintpalette")
+                            Label(.galleryTitle, systemImage: "paintpalette")
                         }
                     }
                 }

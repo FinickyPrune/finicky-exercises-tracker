@@ -158,7 +158,7 @@ extension SchemaV1 {
         private static func title(of step: Step) -> String {
             switch step.config {
             // The library entry may already be deleted; the history row still needs a name.
-            case .exercise: step.exercise?.name ?? String(localized: "Упражнение")
+            case .exercise: step.exercise?.name ?? String(localized: .historyExerciseFallback)
             case let .link(link): link.title
             case let .check(check): check.title
             case nil: ""

@@ -1,0 +1,1410 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "demoDay" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A part of the day.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "День"
+          }
+        }
+      }
+    },
+    "demoDuolingo" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A routine named after the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duolingo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duolingo"
+          }
+        }
+      }
+    },
+    "demoDuolingoLesson" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. The step that opens Duolingo.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lesson"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Урок"
+          }
+        }
+      }
+    },
+    "demoEvening" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A part of the day.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evening"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вечер"
+          }
+        }
+      }
+    },
+    "demoGluteBridge" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glute bridge"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ягодичный мост"
+          }
+        }
+      }
+    },
+    "demoGluteBridgeNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lie on your back, lift your hips and hold at the top."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лёжа на спине поднять таз и задержаться наверху."
+          }
+        }
+      }
+    },
+    "demoJournal" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A routine.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дневник"
+          }
+        }
+      }
+    },
+    "demoJournalEntry" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. The step that opens the Journal app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journal entry"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись в дневник"
+          }
+        }
+      }
+    },
+    "demoLunges" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lunges"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выпады"
+          }
+        }
+      }
+    },
+    "demoLungesNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step forward, both knees at a right angle, alternate legs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаг вперёд, оба колена под прямым углом, ноги попеременно."
+          }
+        }
+      }
+    },
+    "demoMorning" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A part of the day.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morning"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Утро"
+          }
+        }
+      }
+    },
+    "demoPlank" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plank"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Планка"
+          }
+        }
+      }
+    },
+    "demoPlankNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On your forearms, belly tight, lower back level."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На предплечьях, живот подтянут, поясница не провисает."
+          }
+        }
+      }
+    },
+    "demoPushUps" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Push-ups"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отжимания"
+          }
+        }
+      }
+    },
+    "demoPushUpsNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Body in one line from head to heels."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тело — одна линия от головы до пяток."
+          }
+        }
+      }
+    },
+    "demoReading" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A routine and its checkbox.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтение"
+          }
+        }
+      }
+    },
+    "demoSquats" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Squats"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приседания"
+          }
+        }
+      }
+    },
+    "demoSquatsNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feet shoulder-width apart, weight on your heels, back straight."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стопы на ширине плеч, вес на пятках, спина прямая."
+          }
+        }
+      }
+    },
+    "demoStretching" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. An exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stretching"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Растяжка"
+          }
+        }
+      }
+    },
+    "demoStretchingNotes" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. How to do the exercise.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slowly, no jerking: legs, back, shoulders."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спокойно, без рывков: ноги, спина, плечи."
+          }
+        }
+      }
+    },
+    "demoVitamins" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. A routine and its checkbox.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vitamins"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Витамины"
+          }
+        }
+      }
+    },
+    "demoWorkout" : {
+      "comment" : "Demo data, saved once on the first launch of a Debug build. The morning exercise routine.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workout"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
+        }
+      }
+    },
+    "galleryAt" : {
+      "comment" : "Debug design-system gallery. Status of a routine done at a time; %@ is the time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "at %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "в %@"
+          }
+        }
+      }
+    },
+    "galleryCheckOff" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check off"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отметить"
+          }
+        }
+      }
+    },
+    "galleryContinue" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продолжить"
+          }
+        }
+      }
+    },
+    "galleryContrastAccentOnBackground" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accent on background"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Акцент на фоне"
+          }
+        }
+      }
+    },
+    "galleryContrastAccentOnCard" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accent on card"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Акцент на карточке"
+          }
+        }
+      }
+    },
+    "galleryContrastAccentOnWhiteCard" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accent on white card"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Акцент на белой карточке"
+          }
+        }
+      }
+    },
+    "galleryContrastBelowMinimum" : {
+      "comment" : "Debug design-system gallery. VoiceOver label of a warning.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Below minimum"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ниже минимума"
+          }
+        }
+      }
+    },
+    "galleryContrastCaptionOnCard" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caption on card"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подпись на карточке"
+          }
+        }
+      }
+    },
+    "galleryContrastCheckmark" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“As planned” checkmark"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Галочка «по плану»"
+          }
+        }
+      }
+    },
+    "galleryContrastFooter" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light · dark, then with Increase Contrast (HC). Minimum: 4.5 for text, 3 for icons."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Светлая · тёмная, затем с повышенным контрастом (HC). Минимум: 4,5 — текст, 3 — значки."
+          }
+        }
+      }
+    },
+    "galleryContrastPasses" : {
+      "comment" : "Debug design-system gallery. VoiceOver label of a check mark.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проходит"
+          }
+        }
+      }
+    },
+    "galleryContrastTextOnAccent" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text on accent"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст на акценте"
+          }
+        }
+      }
+    },
+    "galleryContrastTextOnBackground" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text on background"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст на фоне"
+          }
+        }
+      }
+    },
+    "galleryContrastTextOnCard" : {
+      "comment" : "Debug design-system gallery. A color pair.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text on card"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст на карточке"
+          }
+        }
+      }
+    },
+    "galleryDayPrompt" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's on for the day?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что сегодня днём?"
+          }
+        }
+      }
+    },
+    "galleryDone" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "galleryFeedbackDayPart" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Part of the day completed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часть дня завершена"
+          }
+        }
+      }
+    },
+    "galleryFeedbackFact" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fact changed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Факт изменён"
+          }
+        }
+      }
+    },
+    "galleryFeedbackFooter" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haptics only play on an iPhone: the simulator does not vibrate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хаптики — только на iPhone, симулятор не вибрирует."
+          }
+        }
+      }
+    },
+    "galleryFeedbackRoutine" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Routine completed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рутина завершена"
+          }
+        }
+      }
+    },
+    "galleryFeedbackStep" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step done · undo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаг выполнен · отмена"
+          }
+        }
+      }
+    },
+    "galleryFeedbackTimerDone" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer finished"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер завершён"
+          }
+        }
+      }
+    },
+    "galleryFeedbackTimerTick" : {
+      "comment" : "Debug design-system gallery. A feedback event.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer: last seconds"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер: последние секунды"
+          }
+        }
+      }
+    },
+    "galleryFinishWorkout" : {
+      "comment" : "Debug design-system gallery.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish the workout"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить зарядку"
+          }
+        }
+      }
+    },
+    "galleryFrom" : {
+      "comment" : "Debug design-system gallery. %@ is a start time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "с %@"
+          }
+        }
+      }
+    },
+    "galleryOfTotal" : {
+      "comment" : "Debug design-system gallery. After a large number: “2 of 6”.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of %lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "из %lld"
+          }
+        }
+      }
+    },
+    "galleryOpensJournal" : {
+      "comment" : "Debug design-system gallery. Journal is the app's name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens Journal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откроет Journal"
+          }
+        }
+      }
+    },
+    "galleryPlay" : {
+      "comment" : "Debug design-system gallery. Plays a haptic and its animation.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проиграть"
+          }
+        }
+      }
+    },
+    "galleryProgress" : {
+      "comment" : "Debug design-system gallery. Steps done of all steps.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld из %2$lld"
+          }
+        }
+      }
+    },
+    "galleryProgressFrom" : {
+      "comment" : "Debug design-system gallery. Routines done, all routines, start time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld · from %3$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld из %2$lld · с %3$@"
+          }
+        }
+      }
+    },
+    "galleryRepsUnit" : {
+      "comment" : "Debug design-system gallery. Unit after the number of reps.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "reps"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "повт"
+          }
+        }
+      }
+    },
+    "gallerySectionCards" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Routine tiles"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плитки рутин"
+          }
+        }
+      }
+    },
+    "gallerySectionColors" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colors"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвета"
+          }
+        }
+      }
+    },
+    "gallerySectionContrast" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrast"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Контраст"
+          }
+        }
+      }
+    },
+    "gallerySectionControls" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan and buttons"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "План и кнопки"
+          }
+        }
+      }
+    },
+    "gallerySectionDayParts" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parts of the day"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Части дня"
+          }
+        }
+      }
+    },
+    "gallerySectionFeedback" : {
+      "comment" : "Debug design-system gallery. Section title: haptics and animations.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отклик"
+          }
+        }
+      }
+    },
+    "gallerySectionHeaders" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parts of the day and empty slot"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Части дня и пустой слот"
+          }
+        }
+      }
+    },
+    "gallerySectionRoutineTints" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Routine palette"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Палитра рутин"
+          }
+        }
+      }
+    },
+    "gallerySectionShapes" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radii and sizes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Радиусы и размеры"
+          }
+        }
+      }
+    },
+    "gallerySectionSpacing" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spacing"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отступы"
+          }
+        }
+      }
+    },
+    "gallerySectionTypography" : {
+      "comment" : "Debug design-system gallery. Section title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typography"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Типографика"
+          }
+        }
+      }
+    },
+    "galleryShapeButton" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "button %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "кнопка %@"
+          }
+        }
+      }
+    },
+    "galleryShapeIcon" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "icon %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "иконка %@"
+          }
+        }
+      }
+    },
+    "galleryShapeProgress" : {
+      "comment" : "Debug design-system gallery. Progress bar height and minimum tile height, in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress %1$@ · tile from %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прогресс %1$@ · плитка от %2$@"
+          }
+        }
+      }
+    },
+    "galleryShapeThumbnail" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "thumbnail %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "миниатюра %@"
+          }
+        }
+      }
+    },
+    "gallerySpacingCardGap" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "between cards %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "между карточками %@"
+          }
+        }
+      }
+    },
+    "gallerySpacingCardPadding" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inside a card %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "внутри карточки %@"
+          }
+        }
+      }
+    },
+    "gallerySpacingScreenEdge" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screen edges %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "поля экрана %@"
+          }
+        }
+      }
+    },
+    "gallerySpacingSection" : {
+      "comment" : "Debug design-system gallery. %@ is a size in points.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "between sections %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "между секциями %@"
+          }
+        }
+      }
+    },
+    "galleryTitle" : {
+      "comment" : "Title of the debug design-system gallery and of the toolbar button that opens it.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Design System"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дизайн-система"
+          }
+        }
+      }
+    },
+    "historyExerciseFallback" : {
+      "comment" : "Saved in history as the title of an exercise step whose library exercise was deleted.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exercise"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Упражнение"
+          }
+        }
+      }
+    },
+    "tabToday" : {
+      "comment" : "Tab bar item.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сегодня"
+          }
+        }
+      }
+    },
+    "todayEmptyDescription" : {
+      "comment" : "Placeholder of the Today screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today's routines will appear here."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь появятся рутины на сегодня."
+          }
+        }
+      }
+    },
+    "todayEmptyTitle" : {
+      "comment" : "Placeholder of the Today screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing here yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока пусто"
+          }
+        }
+      }
+    },
+    "todayTitle" : {
+      "comment" : "Title of the Today screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сегодня"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

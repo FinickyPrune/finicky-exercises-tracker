@@ -18,7 +18,7 @@
 
         var body: some View {
             VStack(alignment: .leading, spacing: Spacing.large) {
-                row("Шаг выполнен · отмена") {
+                row(.galleryFeedbackStep) {
                     AnimatedCheckmark(isOn: stepDone)
                         .foregroundStyle(Palette.accent)
                         .frame(width: Size.button, height: Size.button)
@@ -34,7 +34,7 @@
                 .feedback(.stepCompleted, trigger: completions)
                 .feedback(.undone, trigger: undos)
 
-                row("Факт изменён") {
+                row(.galleryFeedbackFact) {
                     Text("\(fact)")
                         .font(.planNumber(.title2))
                         .contentTransition(.numericText(value: Double(fact)))
@@ -45,7 +45,7 @@
                 .feedback(.factChanged, trigger: fact)
 
                 VStack(alignment: .leading, spacing: Spacing.small) {
-                    row("Рутина завершена") {
+                    row(.galleryFeedbackRoutine) {
                         EmptyView()
                     } play: {
                         routineDone.toggle()
@@ -54,8 +54,9 @@
                         }
                     }
                     RoutineCard(
-                        "Зарядка", status: routineDone ? "6 из 6" : "5 из 6", symbol: "figure.cooldown",
-                        tint: RoutineTint.orange.token, state: routineDone ? .current : .pending
+                        String(localized: .demoWorkout), status: .galleryProgress(routineDone ? 6 : 5, 6),
+                        symbol: "figure.cooldown", tint: RoutineTint.orange.token,
+                        state: routineDone ? .current : .pending
                     )
                     .completionFlash(trigger: routineFlashes)
                     .clipShape(.card)
@@ -63,7 +64,7 @@
                 }
                 .feedback(.routineCompleted, trigger: routineFlashes)
 
-                row("Часть дня завершена") {
+                row(.galleryFeedbackDayPart) {
                     Image(systemName: "sunrise.fill")
                         .font(.sectionTitle)
                         .foregroundStyle(DayPartTint.morning.icon)
@@ -73,7 +74,7 @@
                 }
                 .feedback(.dayPartCompleted, trigger: dayParts)
 
-                row("Таймер: последние секунды") {
+                row(.galleryFeedbackTimerTick) {
                     Circle()
                         .stroke(Palette.accent, lineWidth: Spacing.xxSmall)
                         .frame(width: Size.button, height: Size.button)
@@ -83,7 +84,7 @@
                 }
                 .feedback(.timerTick, trigger: ticks)
 
-                row("Таймер завершён") {
+                row(.galleryFeedbackTimerDone) {
                     Circle()
                         .trim(from: 0, to: timerFinished.isMultiple(of: 2) ? 0.75 : 1)
                         .stroke(Palette.accent, style: StrokeStyle(lineWidth: Spacing.xxSmall, lineCap: .round))
@@ -99,7 +100,7 @@
         }
 
         private func row(
-            _ title: String,
+            _ title: LocalizedStringResource,
             @ViewBuilder sample: () -> some View,
             play: @escaping () -> Void
         ) -> some View {
@@ -108,7 +109,7 @@
                 Text(title)
                     .font(.itemStatus)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                CapsuleButton("Проиграть", style: .dark, action: play)
+                CapsuleButton(.galleryPlay, style: .dark, action: play)
                     .fixedSize()
             }
         }

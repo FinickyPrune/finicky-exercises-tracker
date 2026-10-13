@@ -4,16 +4,20 @@
 
     struct TypographySamples: View {
         var body: some View {
+            let sets = Text("3 × ").font(.planUnit)
+            let reps = Text("15").font(.planNumber())
+            let done = Text("2").font(.planNumber(.title))
             VStack(alignment: .leading, spacing: Spacing.small) {
-                Text("Сегодня").font(.screenTitle)
-                Text("Утро").font(.sectionTitle)
-                Text("1 из 4 · с 7:00").capsLabel()
+                Text(.todayTitle).font(.screenTitle)
+                Text(.demoMorning).font(.sectionTitle)
+                Text(.galleryProgressFrom(1, 4, "7:00")).capsLabel()
                     .foregroundStyle(Palette.textSecondary)
-                Text("Ягодичный мост").font(.itemTitle)
-                Text("Откроет Journal").font(.itemStatus)
+                Text(.demoGluteBridge).font(.itemTitle)
+                Text(.galleryOpensJournal).font(.itemStatus)
                     .foregroundStyle(Palette.textSecondary)
-                Text("\(Text("3 × ").font(.planUnit))\(Text("15").font(.planNumber()))\(Text(" повт").font(.planUnit))")
-                Text("\(Text("2").font(.planNumber(.title))) из 6")
+                Text("\(sets)\(reps) \(Text(.galleryRepsUnit))")
+                    .font(.planUnit)
+                Text("\(done) \(Text(.galleryOfTotal(6)))")
                     .font(.planUnit)
                 Text("0:30").font(.timer)
             }
@@ -45,11 +49,13 @@
 
         private var semantic: String {
             [
-                "поля экрана \(Spacing.screenEdge.formatted())",
-                "между секциями \(Spacing.section.formatted())",
-                "между карточками \(Spacing.cardGap.formatted())",
-                "внутри карточки \(Spacing.cardPadding.formatted())",
-            ].joined(separator: " · ")
+                LocalizedStringResource.gallerySpacingScreenEdge(Spacing.screenEdge.formatted()),
+                .gallerySpacingSection(Spacing.section.formatted()),
+                .gallerySpacingCardGap(Spacing.cardGap.formatted()),
+                .gallerySpacingCardPadding(Spacing.cardPadding.formatted()),
+            ]
+            .map { String(localized: $0) }
+            .joined(separator: " · ")
         }
     }
 
@@ -62,15 +68,15 @@
                     sample(.small, "small \(Radius.small.formatted())")
                 }
                 HStack(alignment: .bottom, spacing: Spacing.medium) {
-                    size(Circle(), Size.button, "кнопка")
-                    size(Circle(), Size.iconBadge, "иконка")
-                    size(RoundedRectangle.small, Size.thumbnail, "миниатюра")
+                    size(Circle(), Size.button, .galleryShapeButton(Size.button.formatted()))
+                    size(Circle(), Size.iconBadge, .galleryShapeIcon(Size.iconBadge.formatted()))
+                    size(RoundedRectangle.small, Size.thumbnail, .galleryShapeThumbnail(Size.thumbnail.formatted()))
                 }
                 VStack(alignment: .leading, spacing: Spacing.xxSmall) {
                     Capsule()
                         .fill(Palette.accent)
                         .frame(height: Size.progressBar)
-                    Text("Прогресс \(Size.progressBar.formatted()) · плитка от \(Size.tileMinHeight.formatted())")
+                    Text(.galleryShapeProgress(Size.progressBar.formatted(), Size.tileMinHeight.formatted()))
                         .font(.caption)
                         .foregroundStyle(Palette.textSecondary)
                 }
@@ -89,12 +95,13 @@
             }
         }
 
-        private func size(_ shape: some Shape, _ side: CGFloat, _ title: String) -> some View {
+        /// `title` names the size and includes its value.
+        private func size(_ shape: some Shape, _ side: CGFloat, _ title: LocalizedStringResource) -> some View {
             VStack(spacing: Spacing.xxSmall) {
                 shape
                     .fill(Palette.surface)
                     .frame(width: side, height: side)
-                Text("\(title) \(side.formatted())")
+                Text(title)
                     .font(.caption)
                     .foregroundStyle(Palette.textSecondary)
             }

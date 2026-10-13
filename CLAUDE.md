@@ -51,16 +51,46 @@ ExercisesTracker/
   App/          entry point, root navigation
   Core/         Model, Persistence, Scheduling
   Features/     Today, RoutineRun, Editor, Library — views and view models
-  Resources/    assets
+  Resources/    assets, Localizable.xcstrings
   Debug/        design-system gallery, Debug builds only
 ExercisesTrackerTests/
-DesignSystem/   framework target: tokens, components, feedback
+DesignSystem/   framework target: tokens, components, feedback, its own Localizable.xcstrings
 DesignSystemTests/
+TestSupport/    helpers compiled into both test targets
 ```
 
 - State: `@Observable` models; views own them with `@State`, pass them down as plain properties or via `@Environment`.
 - Keep views thin: logic that can be unit-tested lives in models, not in `body`.
 - Persistence: SwiftData, behind the `RoutineStore` protocol. Template and history are separate graphs — see docs/ARCHITECTURE.md.
+
+## Localization
+
+English is the base language, Russian the second one. All user-facing text is localized, including the gallery, previews and demo data.
+
+- Text lives in the String Catalog of the target whose code shows it: `ExercisesTracker/Resources/Localizable.xcstrings` or `DesignSystem/Resources/Localizable.xcstrings`. Text the app passes into a design-system component belongs to the app's catalog: generated symbols are `internal` to their target.
+- A key is camelCase and prefixed by its area (`today…`, `demo…`, `gallery…`, `preview…`). Add it by hand in alphabetical order (Xcode re-sorts on save), with an English and a Russian value and a comment that explains every placeholder:
+
+  ```json
+  "todayEmptyTitle" : {
+    "comment" : "Placeholder of the Today screen.",
+    "extractionState" : "manual",
+    "localizations" : {
+      "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing here yet" } },
+      "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пока пусто" } }
+    }
+  }
+  ```
+- Placeholders: `%lld` becomes an `Int` argument of the symbol, `%@` a `String`; with more than one, number them (`%1$lld из %2$lld`) so a translation may reorder them. Format times, dates and measurements with the view's locale and pass them as `%@`.
+- Plurals: put `"variations" : { "plural" : { … } }` in place of `stringUnit`, with `one` and `other` in English and `one`, `few`, `many`, `other` in Russian.
+- Code uses the generated symbols: `Text(.todayTitle)`, `.galleryProgress(2, 6)`, `String(localized: .historyExerciseFallback)` outside views. Data from the store is shown as it is: `Text(routine.name)`.
+- `LocalizedStringResource` silently accepts a string literal, so `status: "Done"` compiles and is never translated. Always pass a symbol.
+- Design-system components take `LocalizedStringResource` for interface text and `String` for data. Text a function composes, such as a VoiceOver label, takes a `locale` from `@Environment(\.locale)`, so tests can check both languages.
+- Literals stay only for `#Preview` names (in English), SF Symbol names and identifiers. Gallery and preview samples use the device language: switch it to check the other one.
+- Checks:
+  - SwiftLint rejects Cyrillic in string literals, a text literal as the first argument of `Text`, `Label`, `Button` and the like, and a literal in `status:`, `subtitle:`, `prompt:`, `message:`, `hint:` or `placeholder:`. A new component that takes text first goes into the `text_literal` list in `.swiftlint.yml`.
+  - A literal inside a ternary (`flag ? "A" : "B"`) is not caught: SF Symbol names take the same shape.
+  - `LocalizationTests` fails on a key without a translation, a comment or a plural form, or with placeholders that differ between languages.
+- A new language goes into both catalogs and into `StringCatalogCheck.languages` and `pluralCategories`. Info.plist text (usage descriptions, the display name) would need an `InfoPlist.xcstrings`; there is none yet.
 
 ## SwiftUI Pro skill
 
@@ -70,7 +100,7 @@ DesignSystemTests/
 - Small related types may share a file: a type with its enum, private helpers, an `extension`. Small private `some View` helpers in a view are fine too.
 - The deployment target is iOS 26: iOS 27+ APIs only behind `#available`.
 - iPhone only, portrait: iPad, window resizing and iPhone Duo layouts are out of scope for now.
-- UI text is Russian only for now: no String Catalog, `LocalizedStringResource` or translations unless asked.
+- Localization follows «Localization» above. That matches the skill's String Catalog rules; generated symbols already carry their bundle, so no `bundle:` arguments.
 
 ## Workflow with agents
 

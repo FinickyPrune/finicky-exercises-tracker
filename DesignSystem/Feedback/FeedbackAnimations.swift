@@ -101,6 +101,8 @@ private struct Pulse<Trigger: Equatable & Sendable>: ViewModifier {
 public struct CelebrationOverlay: View {
     @Binding private var isPresented: Bool
 
+    @Environment(\.locale) private var locale
+
     public init(isPresented: Binding<Bool>) {
         _isPresented = isPresented
     }
@@ -117,7 +119,8 @@ public struct CelebrationOverlay: View {
         .allowsHitTesting(false)
         .task(id: isPresented) {
             guard isPresented else { return }
-            AccessibilityNotification.Announcement("Часть дня выполнена").post()
+            let announcement = LocalizedStringResource.dayPartCompletedAnnouncement.string(in: locale)
+            AccessibilityNotification.Announcement(announcement).post()
             do {
                 try await Task.sleep(for: .seconds(Motion.celebrationDuration))
             } catch {
@@ -162,33 +165,36 @@ private struct CelebrationContent: View {
     }
 }
 
-#Preview("Галочка") {
+#Preview("Checkmark") {
     @Previewable @State var isOn = false
     VStack(spacing: Spacing.large) {
         AnimatedCheckmark(isOn: isOn)
             .foregroundStyle(Palette.accent)
             .frame(width: Size.button, height: Size.button)
-        CapsuleButton(isOn ? "Отменить" : "По плану") { isOn.toggle() }
+        CapsuleButton(isOn ? .previewUndo : .previewAsPlanned) { isOn.toggle() }
     }
     .padding(Spacing.screenEdge)
     .background(Palette.background)
 }
 
-#Preview("Праздник") {
+#Preview("Celebration") {
     @Previewable @State var celebrating = false
-    CapsuleButton("Завершить утро") { celebrating = true }
+    CapsuleButton(.previewFinishMorning) { celebrating = true }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Palette.background)
         .overlay { CelebrationOverlay(isPresented: $celebrating) }
 }
 
-#Preview("Тёмная") {
+#Preview("Dark") {
     @Previewable @State var flashes = 0
-    RoutineCard("Зарядка", status: "6 из 6", symbol: "figure.cooldown", tint: Palette.accent, state: .current)
-        .completionFlash(trigger: flashes)
-        .clipShape(.card)
-        .onTapGesture { flashes += 1 }
-        .padding(Spacing.screenEdge)
-        .background(Palette.background)
-        .preferredColorScheme(.dark)
+    RoutineCard(
+        String(localized: .previewWorkout), status: .previewProgress(6, 6), symbol: "figure.cooldown",
+        tint: Palette.accent, state: .current
+    )
+    .completionFlash(trigger: flashes)
+    .clipShape(.card)
+    .onTapGesture { flashes += 1 }
+    .padding(Spacing.screenEdge)
+    .background(Palette.background)
+    .preferredColorScheme(.dark)
 }

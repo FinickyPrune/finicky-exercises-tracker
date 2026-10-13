@@ -13,27 +13,27 @@
         var body: some View {
             ScrollViewReader { proxy in
                 List {
-                    Section("Части дня и пустой слот") {
+                    Section(.gallerySectionHeaders) {
                         HeaderSamples()
                     }
                     .id("headers")
-                    Section("Плитки рутин") {
+                    Section(.gallerySectionCards) {
                         CardSamples()
                     }
                     .id("cards")
-                    Section("План и кнопки") {
+                    Section(.gallerySectionControls) {
                         ControlSamples()
                     }
                     .id("controls")
                     Section {
                         FeedbackSamples(celebrating: $celebrating)
                     } header: {
-                        Text("Отклик")
+                        Text(.gallerySectionFeedback)
                     } footer: {
-                        Text("Хаптики — только на iPhone, симулятор не вибрирует.")
+                        Text(.galleryFeedbackFooter)
                     }
                     .id("feedback")
-                    Section("Цвета") {
+                    Section(.gallerySectionColors) {
                         ForEach(Palette.all) { token in
                             ColorTokenRow(token: token)
                         }
@@ -44,32 +44,32 @@
                             ContrastPairRow(pair: pair)
                         }
                     } header: {
-                        Text("Контраст")
+                        Text(.gallerySectionContrast)
                     } footer: {
-                        Text("Светлая · тёмная, затем с повышенным контрастом (HC). Минимум: 4,5 — текст, 3 — значки.")
+                        Text(.galleryContrastFooter)
                     }
                     .id("contrast")
-                    Section("Части дня") {
+                    Section(.gallerySectionDayParts) {
                         ForEach(DayPartTint.all, id: \.name) { tint in
                             DayPartTintRow(tint: tint)
                         }
                     }
                     .id("dayParts")
-                    Section("Палитра рутин") {
+                    Section(.gallerySectionRoutineTints) {
                         ForEach(RoutineTint.allCases, id: \.self) { tint in
                             ColorTokenRow(token: tint.token)
                         }
                     }
                     .id("routines")
-                    Section("Типографика") {
+                    Section(.gallerySectionTypography) {
                         TypographySamples()
                     }
                     .id("typography")
-                    Section("Отступы") {
+                    Section(.gallerySectionSpacing) {
                         SpacingSamples()
                     }
                     .id("spacing")
-                    Section("Радиусы и размеры") {
+                    Section(.gallerySectionShapes) {
                         ShapeSamples()
                     }
                     .id("shapes")
@@ -77,7 +77,7 @@
                 .scrollContentBackground(.hidden)
                 .background(Palette.background)
                 .overlay { CelebrationOverlay(isPresented: $celebrating) }
-                .navigationTitle("Design System")
+                .navigationTitle(.galleryTitle)
                 .onAppear {
                     if let section = UserDefaults.standard.string(forKey: "gallerySection") {
                         proxy.scrollTo(section, anchor: .top)
