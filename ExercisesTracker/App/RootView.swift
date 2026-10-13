@@ -1,4 +1,3 @@
-import DesignSystem
 import SwiftUI
 
 /// The tab bar. Each tab is a feature's root screen in its own navigation stack.
@@ -10,15 +9,13 @@ struct RootView: View {
             Tab("Сегодня", systemImage: "sun.max", value: AppTab.today) {
                 NavigationStack(path: $navigation.todayPath) {
                     TodayView()
+                        .navigationDestination(for: TodayRoute.self) { $0.destination }
                     #if DEBUG
                         .modifier(DebugTools())
                     #endif
                 }
             }
         }
-        // System controls (the tab bar, toolbar buttons) take the app's accent, not the asset's default blue.
-        .tint(Palette.accent)
-        .environment(navigation)
     }
 }
 

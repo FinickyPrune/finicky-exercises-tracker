@@ -1,30 +1,30 @@
 @testable import ExercisesTracker
 import Foundation
-import SwiftUI
 import Testing
 
 struct AppNavigationTests {
-    /// Defaults of their own, so launch arguments of the test run do not leak in.
+    /// Defaults of their own, so launch arguments of the test run do not leak in. Emptied before each test.
     private let defaults: UserDefaults
 
     init() throws {
-        let suite = "AppNavigationTests.\(UUID().uuidString)"
+        let suite = "AppNavigationTests"
         defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
     }
 
     @Test func startsOnTodayWithNothingPushed() {
-        let navigation = AppNavigation(launchArguments: defaults)
+        let navigation = AppNavigation(defaults: defaults)
 
         #expect(navigation.selectedTab == .today)
         #expect(navigation.todayPath.isEmpty)
     }
 
+    /// Launch arguments arrive as strings: `-showGallery YES`.
     @Test func showGalleryPushesTheGalleryOntoToday() {
-        defaults.set(true, forKey: "showGallery")
+        defaults.set("YES", forKey: "showGallery")
 
-        let navigation = AppNavigation(launchArguments: defaults)
+        let navigation = AppNavigation(defaults: defaults)
 
-        #expect(navigation.todayPath == NavigationPath([DebugRoute.designSystemGallery]))
+        #expect(navigation.todayPath == [.debug(.designSystemGallery)])
     }
 }

@@ -7,19 +7,19 @@ enum AppTab: Hashable {
 
 /// Where the user is: the selected tab and what is pushed onto each tab's stack.
 ///
-/// Screens open by value: a route appended to a path. So the app itself or a deep link (widget, F7) can open
-/// a screen without a tap. `RootView` owns this and puts it in the environment.
+/// Screens push with `NavigationLink(value:)`. Code changes a path only for deep links and system events,
+/// through methods added here when they appear (F7): they see the top of the stack and do not push a screen twice.
 @Observable
 final class AppNavigation {
     var selectedTab: AppTab = .today
     /// The Today tab's stack above its root screen.
-    var todayPath = NavigationPath()
+    var todayPath: [TodayRoute] = []
 
     /// `defaults` carries the launch arguments: `-showGallery YES` opens the design-system gallery, for screenshots.
-    init(launchArguments defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = .standard) {
         #if DEBUG
             if defaults.bool(forKey: "showGallery") {
-                todayPath.append(DebugRoute.designSystemGallery)
+                todayPath = [.debug(.designSystemGallery)]
             }
         #endif
     }
