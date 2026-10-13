@@ -48,9 +48,8 @@ extension SchemaV1 {
                 dayPartID: routine.dayPart?.id,
                 startedAt: date
             )
-            run.results = routine.steps
+            run.results = routine.orderedSteps
                 .filter { $0.config != nil }
-                .sorted { $0.sortIndex < $1.sortIndex }
                 .enumerated()
                 .map { index, step in StepResult(snapshotOf: step, sortIndex: index) }
             return run

@@ -8,11 +8,7 @@ struct SchemaV1Tests {
     private let container: ModelContainer
 
     init() throws {
-        container = try ModelContainer(
-            for: Schema(versionedSchema: SchemaV1.self),
-            migrationPlan: AppMigrationPlan.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-        )
+        container = try AppModelContainer.inMemory()
     }
 
     private func makeContext() -> ModelContext {
@@ -95,6 +91,18 @@ struct SchemaV1Tests {
         try step.setConfig(.link(LinkStep(title: "Урок", url: testURL("duolingo://"))))
         #expect(step.kindRaw == "link")
         #expect(step.config?.kind == "link")
+    }
+
+    @Test func orderedRoutinesFollowSortIndex() throws {
+        let context = makeContext()
+        let morning = DayPart(name: "Утро", symbol: "sunrise.fill", startMinute: 300, sortIndex: 0)
+        context.insert(morning)
+        morning.routines = [("Витамины", 2), ("Зарядка", 0), ("Дневник", 1)].map { name, sortIndex in
+            Routine(name: name, symbol: "circle", colorName: "orange", sortIndex: sortIndex)
+        }
+        try context.save()
+
+        #expect(morning.orderedRoutines.map(\.name) == ["Зарядка", "Дневник", "Витамины"])
     }
 
     @Test func routineWeekdaysMapToRawValue() {

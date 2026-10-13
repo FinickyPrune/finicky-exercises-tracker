@@ -42,6 +42,11 @@ enum SchemaV1: VersionedSchema {
             self.sortIndex = sortIndex
             routines = []
         }
+
+        /// Routines in display order.
+        var orderedRoutines: [Routine] {
+            routines.sorted { $0.sortIndex < $1.sortIndex }
+        }
     }
 
     /// A block inside a part of the day: «Зарядка», «Дневник». Scheduled by weekdays, made of steps.
@@ -84,6 +89,11 @@ enum SchemaV1: VersionedSchema {
             // Masked: stray high bits from a damaged store are not days.
             get { Weekdays(rawValue: weekdaysRaw).intersection(.everyDay) }
             set { weekdaysRaw = newValue.rawValue }
+        }
+
+        /// Steps in the order they are done.
+        var orderedSteps: [Step] {
+            steps.sorted { $0.sortIndex < $1.sortIndex }
         }
     }
 
