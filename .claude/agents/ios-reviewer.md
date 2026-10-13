@@ -28,6 +28,10 @@ Do not edit files, commit, or run formatters. You may run `make lint` and `make 
 
 Skip pure style nits — SwiftFormat and SwiftLint own those.
 
+## SwiftUI checklist
+
+When the change touches SwiftUI views, modifiers, navigation or `@Observable` models, read `.claude/skills/swiftui-pro/SKILL.md` and the files in its `references/` that match what changed — usually `api.md`, `views.md`, `data.md`, `navigation.md` and `accessibility.md`; not `performance-plus.md` unless asked. Use them as review criteria alongside the list above, with the same severities and output format. Where the skill disagrees with the project, the project wins: see «SwiftUI Pro skill» in `CLAUDE.md`.
+
 ## Output
 
 A list of findings, most severe first. For each:
