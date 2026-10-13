@@ -15,15 +15,20 @@ public struct RoutineCard: View {
     }
 
     private let title: String
-    private let status: String
+    private let status: LocalizedStringResource
     private let symbol: String
     private let tint: ColorToken
     private let state: Phase
 
     @ScaledMetric(relativeTo: .headline) private var minHeight = Size.tileMinHeight
+    @Environment(\.locale) private var locale
 
-    /// - Parameter status: second line, e.g. «2 из 6», «Откроет Journal», «Готово».
-    public init(_ title: String, status: String, symbol: String, tint: ColorToken, state: Phase) {
+    /// - Parameters:
+    ///   - title: the routine's name, shown as it is.
+    ///   - status: second line, e.g. «2 of 6», «Opens Journal», «Done».
+    public init(
+        _ title: String, status: LocalizedStringResource, symbol: String, tint: ColorToken, state: Phase
+    ) {
         self.title = title
         self.status = status
         self.symbol = symbol
@@ -69,14 +74,14 @@ public struct RoutineCard: View {
         .background(filled ? Palette.accent : Palette.surface, in: .card)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(title)
-        .accessibilityValue(Self.accessibilityValue(state: state, status: status))
+        .accessibilityValue(Self.accessibilityValue(state: state, status: status.string(in: locale), locale: locale))
     }
 
-    nonisolated static func accessibilityValue(state: Phase, status: String) -> String {
+    nonisolated static func accessibilityValue(state: Phase, status: String, locale: Locale) -> String {
         switch state {
         case .pending: status
-        case .current: "Сейчас, \(status)"
-        case .done: "Выполнено, \(status)"
+        case .current: LocalizedStringResource.routineCardCurrent(status).string(in: locale)
+        case .done: LocalizedStringResource.routineCardDone(status).string(in: locale)
         }
     }
 }
@@ -107,45 +112,36 @@ public struct RoutineGrid<Content: View>: View {
     }
 }
 
-#Preview("Состояния") {
+#Preview("States") {
     ScrollView {
         RoutineGrid {
-            RoutineCard("Зарядка", status: "2 из 6", symbol: "figure.cooldown", tint: Palette.accent, state: .current)
-            RoutineCard("Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done)
-            RoutineCard(
-                "Дневник", status: "Откроет Journal", symbol: "book.closed.fill", tint: RoutineTint.plum.token,
-                state: .pending
-            )
-            RoutineCard(
-                "Витамины", status: "Отметить", symbol: "pills.fill", tint: RoutineTint.amber.token, state: .pending
-            )
+            RoutineCardSamples.workout
+            RoutineCardSamples.duolingo
+            RoutineCardSamples.journal
+            RoutineCardSamples.vitamins
         }
         .padding(Spacing.screenEdge)
     }
     .background(Palette.background)
 }
 
-#Preview("Тёмная") {
+#Preview("Dark") {
     RoutineGrid {
-        RoutineCard("Зарядка", status: "2 из 6", symbol: "figure.cooldown", tint: Palette.accent, state: .current)
-        RoutineCard("Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done)
-        RoutineCard(
-            "Витамины", status: "Отметить", symbol: "pills.fill", tint: RoutineTint.amber.token, state: .pending
-        )
+        RoutineCardSamples.workout
+        RoutineCardSamples.duolingo
+        RoutineCardSamples.vitamins
     }
     .padding(Spacing.screenEdge)
     .background(Palette.background)
     .preferredColorScheme(.dark)
 }
 
-#Preview("Крупный шрифт") {
+#Preview("Large text") {
     ScrollView {
         RoutineGrid {
-            RoutineCard("Зарядка", status: "2 из 6", symbol: "figure.cooldown", tint: Palette.accent, state: .current)
-            RoutineCard("Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done)
-            RoutineCard(
-                "Витамины", status: "Отметить", symbol: "pills.fill", tint: RoutineTint.amber.token, state: .pending
-            )
+            RoutineCardSamples.workout
+            RoutineCardSamples.duolingo
+            RoutineCardSamples.vitamins
         }
         .padding(Spacing.screenEdge)
     }
@@ -153,15 +149,35 @@ public struct RoutineGrid<Content: View>: View {
     .dynamicTypeSize(.accessibility2)
 }
 
-#Preview("Крупный шрифт, тёмная") {
+#Preview("Large text, dark") {
     ScrollView {
         RoutineGrid {
-            RoutineCard("Зарядка", status: "2 из 6", symbol: "figure.cooldown", tint: Palette.accent, state: .current)
-            RoutineCard("Duolingo", status: "в 7:40", symbol: "bird.fill", tint: RoutineTint.sage.token, state: .done)
+            RoutineCardSamples.workout
+            RoutineCardSamples.duolingo
         }
         .padding(Spacing.screenEdge)
     }
     .background(Palette.background)
     .dynamicTypeSize(.accessibility2)
     .preferredColorScheme(.dark)
+}
+
+/// One tile per state, for the previews above.
+private enum RoutineCardSamples {
+    static let workout = RoutineCard(
+        String(localized: .previewWorkout), status: .previewProgress(2, 6), symbol: "figure.cooldown",
+        tint: Palette.accent, state: .current
+    )
+    static let duolingo = RoutineCard(
+        String(localized: .previewDuolingo), status: .previewAt("7:40"), symbol: "bird.fill",
+        tint: RoutineTint.sage.token, state: .done
+    )
+    static let journal = RoutineCard(
+        String(localized: .previewJournal), status: .previewOpensJournal, symbol: "book.closed.fill",
+        tint: RoutineTint.plum.token, state: .pending
+    )
+    static let vitamins = RoutineCard(
+        String(localized: .previewVitamins), status: .previewCheckOff, symbol: "pills.fill",
+        tint: RoutineTint.amber.token, state: .pending
+    )
 }

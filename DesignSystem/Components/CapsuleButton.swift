@@ -5,20 +5,23 @@ public struct CapsuleButton: View {
     public enum Style: Sendable {
         /// White title on the accent.
         case accent
-        /// Background-colored title on the primary text color: «Завершить зарядку».
+        /// Background-colored title on the primary text color: «Finish the workout».
         case dark
         /// Accent title on `onAccent`, for a button that sits on an accent card.
         case onAccent
     }
 
-    private let title: String
+    private let title: LocalizedStringResource
     private let style: Style
     private let fullWidth: Bool
     private let action: () -> Void
 
     @ScaledMetric(relativeTo: .subheadline) private var minHeight = Size.button
 
-    public init(_ title: String, style: Style = .accent, fullWidth: Bool = false, action: @escaping () -> Void) {
+    public init(
+        _ title: LocalizedStringResource, style: Style = .accent, fullWidth: Bool = false,
+        action: @escaping () -> Void
+    ) {
         self.title = title
         self.style = style
         self.fullWidth = fullWidth
@@ -64,11 +67,11 @@ private struct PressedStyle: ButtonStyle {
     }
 }
 
-#Preview("Стили") {
+#Preview("Styles") {
     VStack(spacing: Spacing.medium) {
-        CapsuleButton("Продолжить") {}
-        CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
-        CapsuleButton("Продолжить", style: .onAccent, fullWidth: true) {}
+        CapsuleButton(.previewContinue) {}
+        CapsuleButton(.previewFinishWorkout, style: .dark, fullWidth: true) {}
+        CapsuleButton(.previewContinue, style: .onAccent, fullWidth: true) {}
             .padding(Spacing.large)
             .background(Palette.accent, in: .card)
     }
@@ -76,11 +79,11 @@ private struct PressedStyle: ButtonStyle {
     .background(Palette.background)
 }
 
-#Preview("Тёмная") {
+#Preview("Dark") {
     VStack(spacing: Spacing.medium) {
-        CapsuleButton("Продолжить") {}
-        CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
-        CapsuleButton("Продолжить", style: .onAccent, fullWidth: true) {}
+        CapsuleButton(.previewContinue) {}
+        CapsuleButton(.previewFinishWorkout, style: .dark, fullWidth: true) {}
+        CapsuleButton(.previewContinue, style: .onAccent, fullWidth: true) {}
             .padding(Spacing.large)
             .background(Palette.accent, in: .card)
     }
@@ -89,10 +92,10 @@ private struct PressedStyle: ButtonStyle {
     .preferredColorScheme(.dark)
 }
 
-#Preview("Крупный шрифт") {
+#Preview("Large text") {
     VStack(spacing: Spacing.medium) {
-        CapsuleButton("Продолжить") {}
-        CapsuleButton("Завершить зарядку", style: .dark, fullWidth: true) {}
+        CapsuleButton(.previewContinue) {}
+        CapsuleButton(.previewFinishWorkout, style: .dark, fullWidth: true) {}
     }
     .padding(Spacing.screenEdge)
     .background(Palette.background)

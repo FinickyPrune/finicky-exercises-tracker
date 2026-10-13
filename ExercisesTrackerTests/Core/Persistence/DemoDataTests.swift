@@ -4,6 +4,9 @@ import SwiftData
 import Testing
 
 struct DemoDataTests {
+    /// The content is checked in Russian, the language it was written in; `namesFollowTheLocale` checks English.
+    private static let russian = Locale(identifier: "ru")
+
     /// Kept for the whole test: a context must not outlive its container.
     private let container: ModelContainer
     private let context: ModelContext
@@ -20,7 +23,7 @@ struct DemoDataTests {
     }
 
     @Test func morningHasTheRoutinesInOrder() throws {
-        try DemoData.insert(into: context)
+        try DemoData.insert(into: context, locale: Self.russian)
 
         let dayParts = try store.dayParts()
         #expect(dayParts.map(\.name) == ["Утро", "День", "Вечер"])
@@ -31,7 +34,7 @@ struct DemoDataTests {
     }
 
     @Test func workoutIsSixExercisesOnWorkdaysWithATimedOne() throws {
-        try DemoData.insert(into: context)
+        try DemoData.insert(into: context, locale: Self.russian)
         let workout = try routine("Зарядка")
 
         #expect(workout.weekdays == .workdays)
@@ -58,7 +61,7 @@ struct DemoDataTests {
     }
 
     @Test func simpleRoutinesAreOneLinkOrCheck() throws {
-        try DemoData.insert(into: context)
+        try DemoData.insert(into: context, locale: Self.russian)
 
         let configs = try ["Duolingo", "Дневник", "Витамины", "Чтение"].map { try routine($0).steps.map(\.config) }
         #expect(configs == [
@@ -70,6 +73,16 @@ struct DemoDataTests {
         for name in ["Duolingo", "Дневник", "Витамины", "Чтение"] {
             #expect(try routine(name).weekdays == .everyDay)
         }
+    }
+
+    @Test func namesFollowTheLocale() throws {
+        try DemoData.insert(into: context, locale: Locale(identifier: "en"))
+
+        let dayParts = try store.dayParts()
+        #expect(dayParts.map(\.name) == ["Morning", "Day", "Evening"])
+        #expect(dayParts.first?.orderedRoutines.map(\.name) == ["Workout", "Duolingo", "Journal", "Vitamins"])
+        let workout = try routine("Workout")
+        #expect(workout.orderedSteps.first?.exercise?.name == "Squats")
     }
 
     /// Every demo routine can be started and finished «по плану», so the data is usable as it is.
@@ -92,7 +105,9 @@ struct DemoDataTests {
         let container = try DemoDataPreview.makeSharedContext()
 
         let dayParts = try SwiftDataRoutineStore(context: container.mainContext).dayParts()
-        #expect(dayParts.map(\.name) == ["Утро", "День", "Вечер"])
+        // In the language of the device running the tests.
+        let names = [String(localized: .demoMorning), String(localized: .demoDay), String(localized: .demoEvening)]
+        #expect(dayParts.map(\.name) == names)
         let inMemory: [Bool] = container.configurations.map(\.isStoredInMemoryOnly)
         #expect(inMemory == [true])
     }
@@ -107,7 +122,7 @@ struct DemoDataTests {
 
     /// The user deleted every template but has history: the demo must not come back.
     @Test func insertIfEmptyLeavesStoreWithHistoryAlone() throws {
-        try DemoData.insert(into: context)
+        try DemoData.insert(into: context, locale: Self.russian)
         let workout = try routine("Зарядка")
         _ = try store.startOrResumeRun(of: workout, at: .now)
         for dayPart in try store.dayParts() {

@@ -51,16 +51,27 @@ ExercisesTracker/
   App/          entry point, root navigation
   Core/         Model, Persistence, Scheduling
   Features/     Today, RoutineRun, Editor, Library — views and view models
-  Resources/    assets
+  Resources/    assets, Localizable.xcstrings
   Debug/        design-system gallery, Debug builds only
 ExercisesTrackerTests/
-DesignSystem/   framework target: tokens, components, feedback
+DesignSystem/   framework target: tokens, components, feedback, its own Localizable.xcstrings
 DesignSystemTests/
+TestSupport/    helpers compiled into both test targets
 ```
 
 - State: `@Observable` models; views own them with `@State`, pass them down as plain properties or via `@Environment`.
 - Keep views thin: logic that can be unit-tested lives in models, not in `body`.
 - Persistence: SwiftData, behind the `RoutineStore` protocol. Template and history are separate graphs — see docs/ARCHITECTURE.md.
+
+## Localization
+
+English is the base language, Russian the second one. All user-facing text is localized, including the gallery, previews and demo data.
+
+- Text lives in the String Catalog of its target: `ExercisesTracker/Resources/Localizable.xcstrings` or `DesignSystem/Resources/Localizable.xcstrings`. A key is camelCase and prefixed by its area (`today…`, `demo…`, `gallery…`, `preview…`). It is added by hand with `"extractionState" : "manual"`, an `en` and a `ru` value, and a comment for translators that explains every placeholder.
+- Code uses the generated symbols: `Text(.todayTitle)`, `.galleryProgress(2, 6)` for placeholders, `String(localized: .historyExerciseFallback)` outside views. Data from the store is shown as it is: `Text(routine.name)`.
+- Design-system components take `LocalizedStringResource` for interface text and `String` for data. Text a function composes for VoiceOver takes a `locale`, so tests check both languages.
+- Literals stay only for `#Preview` names, SF Symbol names and identifiers.
+- SwiftLint rejects Cyrillic in string literals and text literals in `Text`, `Label`, `Button` and the like. `LocalizationTests` fails on a key without a translation, without a comment, or with placeholders that differ between languages.
 
 ## SwiftUI Pro skill
 
@@ -70,7 +81,7 @@ DesignSystemTests/
 - Small related types may share a file: a type with its enum, private helpers, an `extension`. Small private `some View` helpers in a view are fine too.
 - The deployment target is iOS 26: iOS 27+ APIs only behind `#available`.
 - iPhone only, portrait: iPad, window resizing and iPhone Duo layouts are out of scope for now.
-- UI text is Russian only for now: no String Catalog, `LocalizedStringResource` or translations unless asked.
+- Localization follows «Localization» below. That matches the skill's String Catalog rules; generated symbols already carry their bundle, so no `bundle:` arguments.
 
 ## Workflow with agents
 

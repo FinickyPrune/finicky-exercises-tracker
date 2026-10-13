@@ -176,7 +176,7 @@ struct HistoryTests {
 
         let run = try startRun(of: workout)
 
-        #expect(run.orderedResults.first?.title == "Упражнение")
+        #expect(run.orderedResults.first?.title == String(localized: .historyExerciseFallback))
     }
 
     @Test func unreadableStepIsLeftOutOfTheRun() throws {

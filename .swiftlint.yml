@@ -3,6 +3,7 @@ included:
   - ExercisesTrackerTests
   - DesignSystem
   - DesignSystemTests
+  - TestSupport
 
 # Layout is owned by SwiftFormat, which runs only before a PR.
 # These rules would otherwise fail `make lint` on whitespace mid-work.
@@ -38,3 +39,25 @@ line_length:
 
 identifier_name:
   excluded: [id, x, y]
+
+# User-facing text lives in String Catalogs under symbolic keys: Text(.todayTitle), not Text("Today").
+# See CLAUDE.md → Localization.
+custom_rules:
+  cyrillic_in_string:
+    name: "Text in a String Catalog"
+    regex: '[А-Яа-яЁё]+'
+    match_kinds:
+      - string
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and use its generated symbol, e.g. Text(.todayTitle)."
+    severity: error
+  text_literal:
+    name: "Text in a String Catalog"
+    # A string literal with a letter outside interpolations, as the first argument of a call that shows text.
+    regex: '(\b(Text|Label|Button|Tab|Section|Toggle|Picker|TextField|SecureField|LabeledContent|Menu|ContentUnavailableView|CapsuleButton|EmptySlot|navigationTitle|accessibilityLabel|accessibilityHint|accessibilityValue|alert|confirmationDialog|help)\(\s*|\bString\(localized:\s*)"(\\\([^)]*\)|[^"\\\p{L}])*\p{L}'
+    excluded_match_kinds:
+      - comment
+      - doccomment
+    excluded: '.*Tests/.*'
+    message: "Put the text in Localizable.xcstrings (en and ru) and use its generated symbol, e.g. Text(.todayTitle). Data is shown as it is: Text(routine.name)."
+    severity: error

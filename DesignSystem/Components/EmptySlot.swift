@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// Dashed slot with a «+» for an empty part of the day: «Что на утро?».
+/// Dashed slot with a «+» for an empty part of the day: «What's for the morning?».
 public struct EmptySlot: View {
-    private let prompt: String
+    private let prompt: LocalizedStringResource
     private let action: () -> Void
 
     @ScaledMetric(relativeTo: .body) private var plusSize = Size.button
 
-    public init(_ prompt: String, action: @escaping () -> Void) {
+    public init(_ prompt: LocalizedStringResource, action: @escaping () -> Void) {
         self.prompt = prompt
         self.action = action
     }
@@ -34,26 +34,26 @@ public struct EmptySlot: View {
             .contentShape(.row)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(prompt)
-        .accessibilityHint("Добавить рутину")
+        .accessibilityLabel(Text(prompt))
+        .accessibilityHint(Text(.emptySlotHint))
     }
 }
 
-#Preview("Светлая") {
-    EmptySlot("Что на утро?") {}
+#Preview("Light") {
+    EmptySlot(.previewMorningPrompt) {}
         .padding(Spacing.screenEdge)
         .background(Palette.background)
 }
 
-#Preview("Тёмная") {
-    EmptySlot("Как закончить день?") {}
+#Preview("Dark") {
+    EmptySlot(.previewEveningPrompt) {}
         .padding(Spacing.screenEdge)
         .background(Palette.background)
         .preferredColorScheme(.dark)
 }
 
-#Preview("Крупный шрифт") {
-    EmptySlot("Что на утро?") {}
+#Preview("Large text") {
+    EmptySlot(.previewMorningPrompt) {}
         .padding(Spacing.screenEdge)
         .background(Palette.background)
         .dynamicTypeSize(.accessibility2)
